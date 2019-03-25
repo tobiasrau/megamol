@@ -416,6 +416,46 @@ public:
     }
 
     /**
+     * Enumerates all modules of the graph, calling cb for each encountered module.
+     * If entry_point is specified, the graph is traversed starting from that module or namespace,
+     * otherwise, it is traversed from the root.
+     * 
+     * @param entry_point the name of the module/namespace for traversal start
+     * @param cb the lambda
+     * 
+     */
+    inline void EnumModulesNoLock(const std::string& entry_point, std::function<void(Module*)> cb) {
+        auto thingy = this->namespaceRoot->FindNamedObject(entry_point.c_str());
+        bool success = false;
+        if (thingy) {
+            auto mod = dynamic_cast<Module*>(thingy.get());
+            auto ns = dynamic_cast<ModuleNamespace*>(thingy.get());
+            if (mod) {
+                success = true;
+                this->EnumModulesNoLock(mod, cb);
+            } else if (ns) {
+                success = true;
+                this->EnumModulesNoLock(ns, cb);
+            }
+        }
+        if (!success) {
+            vislib::sys::Log::DefaultLog.WriteMsg(vislib::sys::Log::LEVEL_ERROR,
+                "EnumModulesNoLock: Unable to find module nor namespace \"%s\" as entry point", entry_point.c_str());
+        }
+    }
+
+    /**
+     * Enumerates all modules of the graph, calling cb for each encountered module.
+     * If entry_point is specified, the graph is traversed starting from that module or namespace,
+     * otherwise, it is traversed from the root.
+     * 
+     * @param entry_point traversal start or nullptr
+     * @param cb the lambda
+     * 
+     */
+    void EnumModulesNoLock(core::AbstractNamedObject* entry_point, std::function<void(Module*)> cb);
+
+    /**
      * Searches for a specific module called module_name of type A and
      * then executes a lambda.
      *
@@ -431,7 +471,7 @@ public:
         auto ano = ano_container->FindNamedObject(module_name.c_str());
         auto vi = dynamic_cast<A*>(ano.get());
         if (vi != nullptr) {
-            cb(*vi);
+            cb(vi);
             return true;
         } else {
             vislib::sys::Log::DefaultLog.WriteMsg(
