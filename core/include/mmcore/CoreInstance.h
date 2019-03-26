@@ -466,7 +466,7 @@ public:
      */
     template <class A>
     typename std::enable_if<std::is_convertible<A*, Module*>::value, bool>::type GOES_INTO_GRAPH FindModuleNoLock(
-        std::string module_name, std::function<void(A&)> cb) {
+        std::string module_name, std::function<void(A*)> cb) {
         auto ano_container = AbstractNamedObjectContainer::dynamic_pointer_cast(this->namespaceRoot);
         auto ano = ano_container->FindNamedObject(module_name.c_str());
         auto vi = dynamic_cast<A*>(ano.get());
