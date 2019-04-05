@@ -68,6 +68,7 @@
 #include "MolecularBezierData.h"
 #include "MultiPDBLoader.h"
 #include "OpenBabelLoader.h"
+#include "PDBCellLoader.h"
 
 // data interfaces (calls)
 #include "SolPathDataCall.h"
@@ -188,6 +189,7 @@ namespace {
 			this->module_descriptions.RegisterAutoDescription<megamol::protein::HydroBondFilter>();
 			this->module_descriptions.RegisterAutoDescription<megamol::protein::SolventCounter>();
 			this->module_descriptions.RegisterAutoDescription<megamol::protein::MSMSMeshLoader>();
+            this->module_descriptions.RegisterAutoDescription<megamol::protein::PDBCellLoader>();
 
             // register calls here:
 			this->call_descriptions.RegisterAutoDescription<megamol::protein::SolPathDataCall>();

@@ -14,6 +14,8 @@
 #include "mmcore/CallerSlot.h"
 
 #include "Common.h"
+#include "mmcore/param/ParamSlot.h"
+#include <map>
 
 namespace megamol {
 	namespace ospray {
@@ -94,6 +96,8 @@ namespace megamol {
 
         void AddGeometry(OSPGeometry geometry);
 
+        void FinalizeCustomGeometry(std::map<std::string, std::vector<OSPGeometry>>& geoVec);
+
         void FinalizeGeometry();
 
         int GetGeometryCnt();
@@ -128,6 +132,7 @@ namespace megamol {
         GLuint ospFbTex;
 
         // renderer params
+        megamol::core::param::ParamSlot rendererTypeSlot;
         megamol::core::param::ParamSlot epsilonSlot;
         megamol::core::param::ParamSlot useHeadlightSlot;
         megamol::core::param::ParamSlot lightDirSlot;

@@ -26,6 +26,7 @@
 #include <fstream>
 #include "MultiPDBLoader.h"
 #include "vislib/math/Vector.h"
+#include "PDBCellLoader.h"
 
 #ifdef WITH_CURL
 #include <curl/curl.h>
@@ -43,6 +44,7 @@ namespace protein {
     public:
         // AquariaLoader needs access to Callbacks
         friend class MultiPDBLoader;
+        friend class PDBCellLoader;
         
         /** Ctor */
         PDBLoader(void);

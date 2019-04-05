@@ -8,6 +8,7 @@
 #include "vislib/graphics/gl/GLSLShader.h"
 #include "vislib/graphics/CameraParameters.h"
 #include "AbstractOSPRayTestRenderer.h"
+#include "mmcore/param/ParamSlot.h"
 
 #include "Common.h"
 #include "OSPRayPrimitives.h"
@@ -49,6 +50,8 @@ namespace megamol {
 
         ~OSPRaySESRenderer();
 
+
+
       protected:
 
         /**
@@ -67,13 +70,19 @@ namespace megamol {
         */
         bool LoadData(float time);
 
-        bool dirty;
+
+          bool dirty;
 
         std::vector<OSPRaySESSphere> sesSpheres;
 
         std::vector<vec4f> colors;
 
-      private:
+
+                /** MolecularDataCall caller slot */
+        megamol::core::CallerSlot molDataCallerSlot;
+        megamol::core::param::ParamSlot triggerDirtySlot;
+
+          private:
 
         /**
         * The get extents callback. The module should set the members of
@@ -90,8 +99,6 @@ namespace megamol {
 
         SIZE_T dataHash;
 
-        /** MolecularDataCall caller slot */
-        megamol::core::CallerSlot molDataCallerSlot;
       };
     }
   }

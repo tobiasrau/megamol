@@ -119,6 +119,7 @@ private:
     void getOpenGLDepthFromOSPPerspective(megamol::core::Call& call, float* db);
 
     bool renderer_has_changed;
+    double oneSecond = 0;
 };
 
 } /*end namespace ospray*/

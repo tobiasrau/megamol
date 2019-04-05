@@ -16,6 +16,8 @@
 #include "OSPRaySESRenderer.h"
 #include "OSPRaySESGeometry.h"
 #include "OSPRayInstancedSESRenderer.h"
+#include "OSPRaySESCellRenderer.h"
+#include "OSPRaySESCellGeometry.h"
 
  /* anonymous namespace hides this type from any other object files */
 namespace {
@@ -54,6 +56,8 @@ namespace {
       this->module_descriptions.RegisterAutoDescription<megamol::ospray::ses::OSPRaySESRenderer>();
       this->module_descriptions.RegisterAutoDescription<megamol::ospray::ses::OSPRaySESGeometry>();
       this->module_descriptions.RegisterAutoDescription<megamol::ospray::ses::OSPRayInstancedSESRenderer>();
+      this->module_descriptions.RegisterAutoDescription<megamol::ospray::ses::OSPRaySESCellRenderer>();
+      this->module_descriptions.RegisterAutoDescription<megamol::ospray::ses::OSPRaySESCellGeometry>();
 			// register calls here:
 
 			//

@@ -849,8 +849,8 @@ bool AbstractOSPRayRenderer::fillWorld() {
             break;
 
         case structureTypeEnum::OSPRAY_API_STRUCTURES:
-             if (element.ospStructures.first.empty()) {
-                returnValue = false;
+            if (element.ospStructures.first.empty()) {
+                returnValue = true;
                 break;
             }
             for (auto structure : element.ospStructures.first) {

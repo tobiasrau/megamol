@@ -296,9 +296,16 @@ bool OSPRayRenderer::Render(megamol::core::Call& call) {
 
         // setup framebuffer
         ospFrameBufferClear(framebuffer, OSP_FB_COLOR | OSP_FB_DEPTH | OSP_FB_ACCUM);
+        auto t1 = std::chrono::high_resolution_clock::now();
         ospRenderFrame(framebuffer, renderer, OSP_FB_COLOR | OSP_FB_DEPTH | OSP_FB_ACCUM);
 
-
+        auto t2 = std::chrono::high_resolution_clock::now();
+        const auto duration = std::chrono::duration_cast<std::chrono::microseconds>(t2 - t1).count();
+        oneSecond += duration;
+        if (oneSecond > static_cast<decltype(duration)>(1e6)) {
+            vislib::sys::Log::DefaultLog.WriteInfo("OSPRayRenderer: Render frame: %d microseconds", duration);
+            oneSecond = 0;
+        }
 
 
         // get the texture from the framebuffer
@@ -332,7 +339,17 @@ bool OSPRayRenderer::Render(megamol::core::Call& call) {
 
 
     } else {
+        auto t1 = std::chrono::high_resolution_clock::now();
         ospRenderFrame(framebuffer, renderer, OSP_FB_COLOR | OSP_FB_DEPTH | OSP_FB_ACCUM);
+
+        auto t2 = std::chrono::high_resolution_clock::now();
+        const auto duration = std::chrono::duration_cast<std::chrono::microseconds>(t2 - t1).count();
+        oneSecond += duration;
+        if (oneSecond > static_cast<decltype(duration)>(1e6)) {
+            vislib::sys::Log::DefaultLog.WriteInfo("OSPRayRenderer: Render frame: %d microseconds", duration);
+            oneSecond = 0;
+        }
+
         fb = (uint32_t*)ospMapFrameBuffer(framebuffer, OSP_FB_COLOR);
 
         this->renderTexture2D(osprayShader, fb, db.data(), imgSize.x, imgSize.y, *cr);

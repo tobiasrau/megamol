@@ -1396,7 +1396,9 @@ void PDBLoader::loadFile( const vislib::TString& filename) {
                     if( line.Substring( 16, 1 ).Equals( " ", false) ||
                         line.Substring( 16, 1 ).Equals( "A", false) ) {
                         // add atom position to the current frame
-                        this->setAtomPositionToFrame( line, atomCnt, frameCnt);
+                        if (atomCnt < this->atomType.Capacity()) {
+                            this->setAtomPositionToFrame( line, atomCnt, frameCnt);
+                        }
                         atomCnt++;
                     }
                 } else if( line.StartsWith( "END") ) {
