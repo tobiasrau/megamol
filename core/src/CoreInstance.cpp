@@ -3164,8 +3164,8 @@ void megamol::core::CoreInstance::enumParameters(
             for (si = mod->ChildList_Begin(); si != se; ++si) {
                 param::ParamSlot* slot = dynamic_cast<param::ParamSlot*>((*si).get());
                 if (slot) {
-					cb(*mod, *slot);
-				}
+                    cb(*mod, *slot);
+                }
             }
 
         } else if (ns) {
