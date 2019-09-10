@@ -303,6 +303,30 @@ function(require_external NAME)
       INCLUDE_DIR "include"
       IMPORT_LIBRARY ${QUICKHULL_IMPORT_LIB}
       LIBRARY ${QUICKHULL_LIB})
+
+  elseif(NAME STREQUAL "bzip2")
+    if(TARGET bzip2)
+      return()
+    endif()
+         
+    if(WIN32)
+      set(BZIP2_IMPORT_LIB "lib/bzip2.lib")
+      set(BZIP2_LIB "bin/bzip2.dll")
+      set(BZIP2_CMAKE_ARGS "")
+    else()
+      set(BZIP2_IMPORT_LIB "lib/libbzip2.so")
+      set(BZIP2_LIB "lib/libbzip2.so")
+      set(BZIP2_CMAKE_ARGS -DCMAKE_C_FLAGS="-fPIC" -DCMAKE_CXX_FLAGS="-fPIC")
+    endif()
+    add_external_project(bzip2_ext
+      GIT_REPOSITORY https://gitlab.com/federicomenaquintero/bzip2.git
+      BUILD_BYPRODUCTS "<INSTALL_DIR>/${BZIP2_IMPORT_LIB}"
+      CMAKE_ARGS ${BZIP2_CMAKE_ARGS})
+    add_external_library(bzip2 SHARED
+      DEPENDS bzip2_ext
+      INCLUDE_DIR "."
+      IMPORT_LIBRARY ${BZIP2_IMPORT_LIB}
+      LIBRARY ${BZIP2_LIB})
     
   else()
     message(FATAL_ERROR "Unknown external required \"${NAME}\"")

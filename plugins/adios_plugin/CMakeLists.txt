@@ -13,6 +13,19 @@ if(BUILD_${EXPORT_NAME}_PLUGIN)
   # afterwards list the dependencies.
   set(DEP_LIST "${DEP_LIST};BUILD_${EXPORT_NAME}_PLUGIN BUILD_CORE BUILD_MMSTD_DATATOOLS_PLUGIN" CACHE INTERNAL "")
 
+  require_external(bzip2)
+  get_target_property(bzip2_include_dir bzip2 INCLUDE_DIR)
+  get_target_property(bzip2_library bzip2 IMPORT_LIBRARY)
+  require_external(zfp)
+  get_target_property(zfp_include_dir zfp INCLUDE_DIR)
+  get_target_property(zfp_library zfp LIBRARY)
+
+  message(STATUS "${bzip2_include_dir}")
+  message(STATUS "${bzip2_library}")
+  message(STATUS "${zfp_include_dir}")
+  message(STATUS "${zfp_library}")
+
+
   option(USE_EXTERNAL_ADIOS "Option to use external ADIOS2" OFF)
   if (USE_EXTERNAL_ADIOS)
     find_package(ADIOS2 REQUIRED)
@@ -28,7 +41,7 @@ if(BUILD_${EXPORT_NAME}_PLUGIN)
 
     add_external_project(adios2_ext
       GIT_REPOSITORY https://github.com/ornladios/ADIOS2.git
-      GIT_TAG "v2.3.1"
+      GIT_TAG "v2.4.0"
       BUILD_BYPRODUCTS "<INSTALL_DIR>/${ADIOS2_IMPORT_LIB}"
       CMAKE_ARGS 
         -DBUILD_TESTING=OFF -DADIOS2_USE_BZip2=OFF 
@@ -38,7 +51,7 @@ if(BUILD_${EXPORT_NAME}_PLUGIN)
         -DADIOS2_USE_ZFP=OFF -DADIOS2_USE_ZeroMQ=OFF 
         -DMPI_GUESS_LIBRARY_NAME=${MPI_GUESS_LIBRARY_NAME})
     add_external_library(adios2 SHARED
-      DEPENDS adios2_ext
+      DEPENDS adios2_ext zfp bzip2
       IMPORT_LIBRARY ${ADIOS2_IMPORT_LIB}
       LIBRARY ${ADIOS2_LIB})
   endif()
