@@ -12,8 +12,9 @@
 #include "mmcore/versioninfo.h"
 #include "vislib/vislibversion.h"
 
-
+#ifdef HAS_OPENGL
 #include "geometry_calls/CallTriMeshData.h"
+#endif
 #include "geometry_calls/LinesDataCall.h"
 
 
@@ -52,7 +53,9 @@ namespace {
             //
 
             // register calls here:
+            #ifdef HAS_OPENGL
             this->call_descriptions.RegisterAutoDescription<megamol::geocalls::CallTriMeshData>();
+            #endif
             this->call_descriptions.RegisterAutoDescription<megamol::geocalls::LinesDataCall>();
             //
             // TODO: Register your plugin's calls here

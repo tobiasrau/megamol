@@ -36,7 +36,6 @@
 #include "mmcore/param/ParamUpdateListener.h"
 #include "mmcore/utility/Configuration.h"
 #include "mmcore/utility/LogEchoTarget.h"
-#include "mmcore/utility/ShaderSourceFactory.h"
 
 #include "vislib/Array.h"
 #include "vislib/IllegalStateException.h"
@@ -178,14 +177,7 @@ public:
      */
     inline const megamol::core::utility::Configuration& Configuration(void) const { return this->config; }
 
-    /**
-     * Returns the ShaderSourceFactory object of this inatcne.
-     *
-     * @return The ShaderSourceFactory object of this inatcne.
-     */
-    inline utility::ShaderSourceFactory& ShaderSourceFactory(void) { return this->shaderSourceFactory; }
-
-    /**
+     /**
      * Searches for an view description object with the given name.
      *
      * @param name The name to search for.
@@ -1190,9 +1182,6 @@ private:
 
     /** the cores configuration */
     megamol::core::utility::Configuration config;
-
-    /** The shader source factory */
-    utility::ShaderSourceFactory shaderSourceFactory;
 
     /** The log object */
     vislib::sys::Log log;

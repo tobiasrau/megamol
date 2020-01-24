@@ -13,8 +13,13 @@ if(BUILD_MAIN3000)
   # afterwards list the dependencies.
   set(DEP_LIST "${DEP_LIST};BUILD_MMSTD_DATATOOLS_PLUGIN BUILD_CORE" CACHE INTERNAL "")
 
-  file(GLOB_RECURSE header_files RELATIVE "${CMAKE_CURRENT_SOURCE_DIR}" "src/*.h")
-  file(GLOB_RECURSE source_files RELATIVE "${CMAKE_CURRENT_SOURCE_DIR}" "src/*.cpp")
+  if(USE_OPENGL)
+    file(GLOB_RECURSE header_files RELATIVE "${CMAKE_CURRENT_SOURCE_DIR}" "${PROJECT_NAME}_gl/src/*.h")
+    file(GLOB_RECURSE source_files RELATIVE "${CMAKE_CURRENT_SOURCE_DIR}" "${PROJECT_NAME}_gl/src/*.cpp")
+  else()
+    file(GLOB_RECURSE header_files RELATIVE "${CMAKE_CURRENT_SOURCE_DIR}" "src/*.h")
+    file(GLOB_RECURSE source_files RELATIVE "${CMAKE_CURRENT_SOURCE_DIR}" "src/*.cpp")
+  endif()
 
   # Add target
   add_executable(${PROJECT_NAME} ${header_files} ${source_files})
@@ -29,7 +34,9 @@ if(BUILD_MAIN3000)
   endif()
 
   target_link_libraries(${PROJECT_NAME} PRIVATE ${VERSION_LIBRARY} ${CMAKE_DL_LIBS})
-  target_link_libraries(${PROJECT_NAME} PRIVATE glfw3)
+  if(USE_GLFW)
+    target_link_libraries(${PROJECT_NAME} PRIVATE glfw3)
+  endif()
 
   # Grouping in Visual Studio
   set_target_properties(${PROJECT_NAME} PROPERTIES FOLDER base)

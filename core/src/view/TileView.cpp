@@ -16,7 +16,7 @@ using vislib::graphics::CameraParameters;
 /*
  * view::TileView::TileView
  */
-view::TileView::TileView(void) : AbstractTileView(), firstFrame(false), outCtrl(NULL) {
+view::TileView::TileView(void) : AbstractTileView(), firstFrame(false) {
 
 }
 
@@ -51,11 +51,6 @@ void view::TileView::Render(const mmcRenderViewContext& context) {
         crv->SetTile(this->getVirtWidth(), this->getVirtHeight(),
             this->getTileX(), this->getTileY(), this->getTileW(), this->getTileH());
     }
-    if (this->outCtrl == NULL) {
-        crv->SetOutputBuffer(GL_BACK, this->getViewportWidth(), this->getViewportHeight()); // TODO: Fix me!
-    } else {
-        crv->SetOutputBuffer(*this->outCtrl);
-    }
     (*crv)(view::CallRenderView::CALL_RENDER);
 }
 
@@ -84,8 +79,6 @@ bool view::TileView::OnRenderView(Call& call) {
     view::CallRenderView *crv = dynamic_cast<view::CallRenderView *>(&call);
     if (crv == NULL) return false;
 
-    this->outCtrl = crv;
-
     mmcRenderViewContext c;
     ::ZeroMemory(&c, sizeof(mmcRenderViewContext));
     c.Size = sizeof(mmcRenderViewContext);
@@ -94,10 +87,6 @@ bool view::TileView::OnRenderView(Call& call) {
     c.InstanceTime = crv->InstanceTime();
     // TODO: Affinity
     this->Render(c);
-
-    // TODO: Fix me!
-
-    this->outCtrl = NULL;
 
     return true;
 }

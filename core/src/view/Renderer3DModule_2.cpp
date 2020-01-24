@@ -82,15 +82,6 @@ bool Renderer3DModule_2::RenderChain(CallRender3D_2& call) {
     std::shared_ptr<const view::AbstractView> viewptr =
         std::dynamic_pointer_cast<const view::AbstractView>(leftSlotParent);
 
-    if (viewptr != nullptr) {
-        // TODO move this behind the fbo magic?
-        auto vp = call.GetViewport();
-        glViewport(vp.Left(), vp.Bottom(), vp.Width(), vp.Height());
-        auto backCol = call.BackgroundColor();
-        glClearColor(backCol.x, backCol.y, backCol.z, 0.0f);
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    }
-
     CallRender3D_2* chainedCall = this->chainRenderSlot.CallAs<CallRender3D_2>();
 
     if (chainedCall != nullptr) {

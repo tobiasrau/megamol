@@ -7,7 +7,6 @@
 
 #include "stdafx.h"
 #include "mmcore/view/View3D_2.h"
-#include "vislib/graphics/gl/IncludeAllGL.h"
 #ifdef _WIN32
 #    include <windows.h>
 #endif /* _WIN32 */
@@ -360,18 +359,18 @@ void View3D_2::Render(const mmcRenderViewContext& context) {
         currentViewport = glm::ivec4(0, 0, camRes.width(), camRes.height());
     }
 
-    if (this->overrideCall != nullptr) {
-        if (cr3d != nullptr) {
-            view::RenderOutputOpenGL* ro = dynamic_cast<view::RenderOutputOpenGL*>(overrideCall);
-            if (ro != nullptr) {
-                *static_cast<view::RenderOutputOpenGL*>(cr3d) = *ro;
-            }
-        }
-        this->overrideCall->EnableOutputBuffer();
-    } else if (cr3d != nullptr) {
-        cr3d->SetOutputBuffer(GL_BACK);
-        cr3d->GetViewport(); // access the viewport to enforce evaluation TODO is this still necessary
-    }
+    //if (this->overrideCall != nullptr) {
+    //    if (cr3d != nullptr) {
+    //        view::RenderOutputOpenGL* ro = dynamic_cast<view::RenderOutputOpenGL*>(overrideCall);
+    //        if (ro != nullptr) {
+    //            *static_cast<view::RenderOutputOpenGL*>(cr3d) = *ro;
+    //        }
+    //    }
+    //    this->overrideCall->EnableOutputBuffer();
+    //} else if (cr3d != nullptr) {
+    //    //cr3d->SetOutputBuffer(GL_BACK);
+    //    //cr3d->GetViewport(); // access the viewport to enforce evaluation TODO is this still necessary
+    //}
 
     const float* bkgndCol = (this->overrideBkgndCol != nullptr) ? this->overrideBkgndCol : this->BkgndColour();
 
@@ -551,14 +550,14 @@ void View3D_2::Resize(unsigned int width, unsigned int height) {
  */
 bool View3D_2::OnRenderView(Call& call) {
     std::array<float, 3> overBC;
-    std::array<int, 4> overVP = {0, 0, 0, 0};
     view::CallRenderView* crv = dynamic_cast<view::CallRenderView*>(&call);
     if (crv == nullptr) return false;
 
-    this->overrideViewport = overVP.data();
+    // std::array<int, 4> overVP = {0, 0, 0, 0};
+    // this->overrideViewport = overVP.data();
     if (crv->IsViewportSet()) {
-        overVP[2] = crv->ViewportWidth();
-        overVP[3] = crv->ViewportHeight();
+        //overVP[2] = crv->ViewportWidth();
+        //overVP[3] = crv->ViewportHeight();
         if (!crv->IsTileSet()) {
             // TODO
         }

@@ -14,9 +14,8 @@
 #include "mmcore/view/Renderer3DModule.h"
 #include "mmcore/view/light/CallLight.h"
 #include "ospray/ospray.h"
-#include "vislib/graphics/gl/FramebufferObject.h"
-#include "vislib/graphics/gl/GLSLShader.h"
-
+#include "vislib/graphics/FramebufferObject.h"
+#include "vislib/graphics/GLSLShader.h"
 
 namespace megamol {
 namespace ospray {

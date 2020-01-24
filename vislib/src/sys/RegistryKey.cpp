@@ -7,36 +7,8 @@
 
 #include "vislib/sys/RegistryKey.h"
 
-#define _WINXP32_LEGACY_SUPPORT
-
 #ifdef _WIN32
 #include "vislib/MissingImplementationException.h"
-#ifdef _WINXP32_LEGACY_SUPPORT
-#include "DynamicFunctionPointer.h"
-#endif /* _WINXP32_LEGACY_SUPPORT */
-
-
-#ifdef _WINXP32_LEGACY_SUPPORT
-namespace vislib {
-namespace sys {
-
-/*
- * Dynamic function pointer for RegDeleteKeyExA
- */
-static DynamicFunctionPointer<LSTATUS (APIENTRY *)(HKEY hKey, LPCSTR lpSubKey,
-        REGSAM samDesired, DWORD Reserved )>
-        dynRegDeleteKeyExA("Advapi32.dll", "RegDeleteKeyExA");
-
-/*
- * Dynamic function pointer for RegDeleteKeyExA
- */
-static DynamicFunctionPointer<LSTATUS (APIENTRY *)(HKEY hKey, LPCWSTR lpSubKey,
-        REGSAM samDesired, DWORD Reserved )>
-        dynRegDeleteKeyExW("Advapi32.dll", "RegDeleteKeyExW");
-
-} /* end namespace sys */
-} /* end namespace vislib */
-#endif /* _WINXP32_LEGACY_SUPPORT */
 
 
 /*

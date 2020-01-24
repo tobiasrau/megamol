@@ -17,12 +17,6 @@
 #include "vislib/IllegalStateException.h"
 #include "vislib/sys/Log.h"
 
-#ifdef RIG_RENDERCALLS_WITH_DEBUGGROUPS
-#include "mmcore/view/Renderer2DModule.h"
-#include "mmcore/view/Renderer3DModule.h"
-#include "vislib/graphics/gl/IncludeAllGL.h"
-#endif
-
 using namespace megamol::core;
 
 

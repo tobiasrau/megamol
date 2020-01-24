@@ -17,7 +17,6 @@
 #include "mmcore/view/CallRender3D.h"
 #include "ospcommon/box.h"
 #include "ospray/ospray.h"
-#include "vislib/graphics/gl/FramebufferObject.h"
 #include "vislib/sys/Log.h"
 #include "vislib/sys/Path.h"
 #include "vislib/sys/SystemInformation.h"
