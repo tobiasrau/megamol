@@ -9,20 +9,21 @@ option(BUILD_RAPI "build render APIs" ON)
 project(render_api)
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 
-#  # Check option dependencies: First list item is always the current build option,
-#  # afterwards list the dependencies.
-#  set(DEP_LIST "${DEP_LIST};BUILD_MMSTD_DATATOOLS_PLUGIN BUILD_CORE" CACHE INTERNAL "")
-
-file(GLOB_RECURSE header_files RELATIVE "${CMAKE_CURRENT_SOURCE_DIR}" "include/*.h" "include/*.hpp" "opengl_glfw/*.h"  "opengl_glfw/*.hpp")
-file(GLOB_RECURSE source_files RELATIVE "${CMAKE_CURRENT_SOURCE_DIR}" "opengl_glfw/*.cpp")
+file(GLOB_RECURSE header_files RELATIVE "${CMAKE_CURRENT_SOURCE_DIR}" "include/*.h" "include/*.hpp" "src/*.h"  "src/*.hpp")
+file(GLOB_RECURSE source_files RELATIVE "${CMAKE_CURRENT_SOURCE_DIR}" "src/*.cpp")
+if(USE_OPENGL)
+  set(gl_include_dirs "${PROJECT_NAME}_gl/include")
+  file(GLOB_RECURSE gl_header_files RELATIVE "${CMAKE_CURRENT_SOURCE_DIR}" "${PROJECT_NAME}_gl/include/*.h" "${PROJECT_NAME}_gl/include/*.hpp" "${PROJECT_NAME}_gl/src/*.h"  "${PROJECT_NAME}_gl/src/*.hpp")
+  file(GLOB_RECURSE gl_source_files RELATIVE "${CMAKE_CURRENT_SOURCE_DIR}" "${PROJECT_NAME}_gl/src/*.cpp")
+endif()
 
 # Add target
-add_library(${PROJECT_NAME} STATIC ${header_files} ${source_files})
+add_library(${PROJECT_NAME} STATIC ${header_files} ${source_files} ${gl_header_files} ${gl_source_files})
 set_target_properties(${PROJECT_NAME}
   PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}
   OUTPUT_NAME ${PROJECT_NAME})
   
-set(INCLUDE_DIRS "opengl_glfw" "include")
+set(INCLUDE_DIRS ${gl_include_dirs} "include")
 target_include_directories(${PROJECT_NAME} PUBLIC ${INCLUDE_DIRS})
 
 #target_link_libraries(${PROJECT_NAME} PRIVATE core)
@@ -38,15 +39,15 @@ if(WIN32)
 endif()
 
 # GLFW
-  if(USE_GLFW)
-    if (MSVC)
-        set(GLFW_IMPORT_LIBRARY "lib/glfw3dll.lib")
-        set(GLFW_LIBRARY "lib/glfw3.dll")
-    else()
-        set(GLFW_IMPORT_LIBRARY "")
-        set(GLFW_LIBRARY "lib/libglfw.so")
-    endif()
-    add_external_project(glfw_ext
+if(USE_GLFW)
+  if (MSVC)
+    set(GLFW_IMPORT_LIBRARY "lib/glfw3dll.lib")
+    set(GLFW_LIBRARY "lib/glfw3.dll")
+  else()
+    set(GLFW_IMPORT_LIBRARY "")
+    set(GLFW_LIBRARY "lib/libglfw.so")
+  endif()
+  add_external_project(glfw_ext
       GIT_REPOSITORY https://github.com/glfw/glfw.git
       GIT_TAG "3.2.1"
       BUILD_BYPRODUCTS "<INSTALL_DIR>/${GLFW_IMPORT_LIBRARY}"
@@ -55,24 +56,25 @@ endif()
         -DGLFW_BUILD_EXAMPLES=OFF
         -DGLFW_BUILD_TESTS=OFF
         -DGLFW_BUILD_DOCS=OFF)
-    add_external_library(glfw3 SHARED
+  add_external_library(glfw3 SHARED
       DEPENDS glfw_ext
       INCLUDE_DIR "include"
       IMPORT_LIBRARY ${GLFW_IMPORT_LIBRARY}
       LIBRARY ${GLFW_LIBRARY})
-    target_link_libraries(${PROJECT_NAME} PRIVATE glfw3)
-    ExternalProject_Get_property(glfw_ext SOURCE_DIR)
-    target_include_directories(${PROJECT_NAME} PRIVATE "${SOURCE_DIR}/include")
-  endif()
-  
-add_subdirectory(glad)
+  target_link_libraries(${PROJECT_NAME} PRIVATE glfw3)
+  ExternalProject_Get_property(glfw_ext SOURCE_DIR)
+  target_include_directories(${PROJECT_NAME} PRIVATE "${SOURCE_DIR}/include")
+endif()
 
-target_link_libraries(${PROJECT_NAME} PRIVATE ${VERSION_LIBRARY} ${CMAKE_DL_LIBS} glad_ vislib)
-
+if(USE_OPENGL)
+  add_subdirectory(glad)
+  target_link_libraries(${PROJECT_NAME} PRIVATE ${VERSION_LIBRARY} ${CMAKE_DL_LIBS} glad_)
+endif()
+target_link_libraries(${PROJECT_NAME} PRIVATE ${VERSION_LIBRARY} ${CMAKE_DL_LIBS} vislib)
 # Grouping in Visual Studio
 set_target_properties(${PROJECT_NAME} PROPERTIES FOLDER base)
-source_group("Header Files" FILES ${header_files})
-source_group("Source Files" FILES ${source_files})
+source_group("Header Files" FILES ${header_files} ${gl_header_files})
+source_group("Source Files" FILES ${source_files} ${gl_source_files})
 
 #  # install executable
 #  install(TARGETS ${PROJECT_NAME} RUNTIME DESTINATION "bin" ARCHIVE DESTINATION "lib")

@@ -109,9 +109,6 @@ namespace view {
         /** Flag to identify the first frame */
         bool firstFrame;
 
-        /** TODO */
-        RenderOutputOpenGL * outCtrl;
-
     };
 
 

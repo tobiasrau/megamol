@@ -16,12 +16,21 @@ if(BUILD_${EXPORT_NAME}_PLUGIN)
   file(GLOB_RECURSE public_header_files RELATIVE "${CMAKE_CURRENT_SOURCE_DIR}" "include/*.h")
   file(GLOB_RECURSE source_files RELATIVE "${CMAKE_CURRENT_SOURCE_DIR}" "src/*.cpp")
   file(GLOB_RECURSE header_files RELATIVE "${CMAKE_CURRENT_SOURCE_DIR}" "src/*.h")
+  if (USE_OPENGL)
+    file(GLOB_RECURSE gl_public_header_files RELATIVE "${CMAKE_CURRENT_SOURCE_DIR}" "${PROJECT_NAME}_gl/include/*.h")
+    file(GLOB_RECURSE gl_source_files RELATIVE "${CMAKE_CURRENT_SOURCE_DIR}" "${PROJECT_NAME}_gl/src/*.cpp")
+    file(GLOB_RECURSE gl_header_files RELATIVE "${CMAKE_CURRENT_SOURCE_DIR}" "${PROJECT_NAME}_gl/src/*.h")
+    set(build_interface_gl_dirs "include" "src")
+  endif()
 
   # Target definition
-  add_library(${PROJECT_NAME} SHARED ${public_header_files} ${header_files} ${source_files})
+  add_library(${PROJECT_NAME} SHARED ${public_header_files} ${header_files} ${source_files}
+                                     ${gl_public_header_files} ${gl_source_files} ${gl_header_files})
+  # Set target naming conventions for different build types
   set_target_properties(${PROJECT_NAME} PROPERTIES SUFFIX ".mmplg") 
   target_compile_definitions(${PROJECT_NAME} PRIVATE ${EXPORT_NAME}_EXPORTS)
-  target_include_directories(${PROJECT_NAME} PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include> "include" "src")
+  target_include_directories(${PROJECT_NAME} PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+                                                    "include" "src" ${build_interface_gl_dirs})
   target_link_libraries(${PROJECT_NAME} PRIVATE core)
 
   # Installation rules for generated files
@@ -38,7 +47,7 @@ if(BUILD_${EXPORT_NAME}_PLUGIN)
 
   # Grouping in Visual Studio
   set_target_properties(${PROJECT_NAME} PROPERTIES FOLDER plugins)
-  source_group("Public Header Files" FILES ${public_header_files})
-  source_group("Header Files" FILES ${header_files})
-  source_group("Source Files" FILES ${source_files})
+  source_group("Public Header Files" FILES ${public_header_files} ${gl_public_header_files})
+  source_group("Header Files" FILES ${header_files} ${gl_header_files})
+  source_group("Source Files" FILES ${source_files} ${gl_source_files})
 endif()

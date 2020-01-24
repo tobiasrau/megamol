@@ -17,8 +17,7 @@
 #include "mmcore/Call.h"
 #include "mmcore/factories/CallAutoDescription.h"
 #include "vislib/math/Cuboid.h"
-#include "mmcore/view/CallRender3D.h"
-#include "vislib/graphics/gl/IncludeAllGL.h"
+#include "mmcore/Call.h"
 #include "vislib/macro_utils.h"
 #include "protein_calls/Protein_Calls.h"
 

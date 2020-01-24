@@ -14,7 +14,7 @@ using namespace megamol::core;
 /*
  * view::CallRenderView::CallRenderView
  */
-view::CallRenderView::CallRenderView(void) : AbstractCallRender(), RenderOutputOpenGL(),
+view::CallRenderView::CallRenderView(void) : AbstractCallRender(),
         bkgndB(0), bkgndG(0), bkgndR(0),
         eye(vislib::graphics::CameraParameters::RIGHT_EYE), flagBkgnd(false),
         flagProj(false), flagTile(false), height(1.0f),
@@ -29,7 +29,7 @@ view::CallRenderView::CallRenderView(void) : AbstractCallRender(), RenderOutputO
  * view::CallRenderView::CallRenderView
  */
 view::CallRenderView::CallRenderView(const CallRenderView& src)
-        : AbstractCallRender(), RenderOutputOpenGL() {
+        : AbstractCallRender() {
     *this = src;
 }
 
@@ -47,7 +47,6 @@ view::CallRenderView::~CallRenderView(void) {
  */
 view::CallRenderView& view::CallRenderView::operator=(const view::CallRenderView& rhs) {
     view::AbstractCallRender::operator=(rhs);
-    view::RenderOutputOpenGL::operator=(rhs);
     this->bkgndB = rhs.bkgndB;
     this->bkgndG = rhs.bkgndG;
     this->bkgndR = rhs.bkgndR;

@@ -10,11 +10,6 @@
 #include "mmcore/Call.h"
 #include "mmcore/CalleeSlot.h"
 #include "mmcore/CallerSlot.h"
-#ifdef RIG_RENDERCALLS_WITH_DEBUGGROUPS
-#    include "mmcore/view/Renderer2DModule.h"
-#    include "mmcore/view/Renderer3DModule.h"
-#    include "vislib/graphics/gl/IncludeAllGL.h"
-#endif
 #include "vislib/sys/Log.h"
 
 using namespace megamol::core;

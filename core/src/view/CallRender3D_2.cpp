@@ -13,7 +13,7 @@ using namespace megamol::core;
 /*
  * view::CallRender3D_2::CallRender3D_2
  */
-view::CallRender3D_2::CallRender3D_2(void) : view::AbstractCallRender3D_2(), RenderOutputOpenGL() {
+view::CallRender3D_2::CallRender3D_2(void) : view::AbstractCallRender3D_2() {
     // intentionally empty
 }
 
@@ -31,7 +31,6 @@ view::CallRender3D_2::~CallRender3D_2(void) {
  */
 view::CallRender3D_2& view::CallRender3D_2::operator=(const view::CallRender3D_2& rhs) {
     view::AbstractCallRender3D_2::operator=(rhs);
-    view::RenderOutputOpenGL::operator=(rhs);
     this->mouseX = rhs.mouseX;
     this->mouseY = rhs.mouseY;
     this->mouseFlags = rhs.mouseFlags;

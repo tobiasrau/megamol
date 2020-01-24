@@ -29,6 +29,14 @@ set(MEGAMOL_CORE_DIR ${MEGAMOL_DIR}/core)
 set(MEGAMOL_CONSOLE_DIR ${MEGAMOL_DIR}/console)
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${PROJECT_SOURCE_DIR}/cmake)
 
+option(USE_OPENGL "Use OpenGL" ON)
+if (USE_OPENGL)
+  option(USE_GLFW "Use GLFW" ON)
+else()
+  set(USE_GLFW OFF)
+endif()
+
+# Global definitions
 # Versions
 include(global_versioninfo)
 

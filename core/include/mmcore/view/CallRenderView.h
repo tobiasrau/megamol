@@ -14,7 +14,6 @@
 #include "mmcore/api/MegaMolCore.h"
 #include "mmcore/factories/CallAutoDescription.h"
 #include "mmcore/view/AbstractCallRender.h"
-#include "mmcore/view/RenderOutputOpenGL.h" 
 #include "mmcore/view/Input.h"
 #include "vislib/graphics/CameraParameters.h"
 #include "vislib/graphics/graphicstypes.h"
@@ -31,7 +30,7 @@ namespace view {
      * Call for rendering visual elements (from separate sources) into a single target, i.e.,
 	 * FBO-based compositing and cluster display.
      */
-    class MEGAMOLCORE_API CallRenderView : public AbstractCallRender, public RenderOutputOpenGL {
+    class MEGAMOLCORE_API CallRenderView : public AbstractCallRender {
     public:
 
         /**
@@ -399,24 +398,6 @@ namespace view {
          */
         inline float TileY(void) const {
             return this->tileY;
-        }
-
-        /**
-         * Gets the height of the viewport in pixel.
-         *
-         * @return The height of the viewport in pixel
-         */
-        inline unsigned int ViewportHeight(void) const {
-            return this->GetViewport().Height();
-        }
-
-        /**
-         * Gets the width of the viewport in pixel.
-         *
-         * @return The width of the viewport in pixel
-         */
-        inline unsigned int ViewportWidth(void) const {
-            return this->GetViewport().Width();
         }
 
         /**

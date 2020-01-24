@@ -36,40 +36,26 @@ if(BUILD_CORE)
   require_external(zlib)
   require_external(libpng)
   require_external(glm)
-  require_external(glowl)
+  if(USE_OPENGL)
+    require_external(glowl)
+  endif()
   require_external(json)
 
-  # Collect source files
+  if(USE_OPENGL)
+    file(GLOB_RECURSE gl_public_header_files RELATIVE "${CMAKE_CURRENT_SOURCE_DIR}" "${PROJECT_NAME}_gl/include/*.h" "${PROJECT_NAME}_gl/include/*.inl")
+    file(GLOB_RECURSE gl_source_files RELATIVE "${CMAKE_CURRENT_SOURCE_DIR}" "${PROJECT_NAME}_gl/src/*.cpp")
+    file(GLOB_RECURSE gl_header_files RELATIVE "${CMAKE_CURRENT_SOURCE_DIR}" "${PROJECT_NAME}_gl/src/*.h")
+    file(GLOB_RECURSE shader_files RELATIVE "${CMAKE_CURRENT_SOURCE_DIR}" "${PROJECT_NAME}_gl/Shaders/*")
+  endif()
+  file(GLOB_RECURSE resource_files RELATIVE "${CMAKE_CURRENT_SOURCE_DIR}" "Resources/*")
   file(GLOB_RECURSE public_header_files RELATIVE "${CMAKE_CURRENT_SOURCE_DIR}" "include/*.h" "include/*.inl")
   file(GLOB_RECURSE source_files RELATIVE "${CMAKE_CURRENT_SOURCE_DIR}" "src/*.cpp")
   file(GLOB_RECURSE header_files RELATIVE "${CMAKE_CURRENT_SOURCE_DIR}" "src/*.h")
-  file(GLOB_RECURSE shader_files RELATIVE "${CMAKE_CURRENT_SOURCE_DIR}" "Shaders/*")
-  file(GLOB_RECURSE resource_files RELATIVE "${CMAKE_CURRENT_SOURCE_DIR}" "Resources/*")
   set(version_files ${CMAKE_BINARY_DIR}/version/MMCoreVersionInfo.cpp)
 
-  list(REMOVE_ITEM source_files
-    "src/moldyn/D3D11SimpleSphereRenderer.cpp"
-    "src/special/AbstractStereoDisplay.cpp"
-    "src/special/ColStereoDisplay.cpp"
-    "src/utility/AbstractD3D11RenderObject.cpp"
-    "src/utility/D3D11BoundingBox.cpp"
-    "src/view/CallUpdateDirect3D.cpp"
-    "src/view/ViewDirect3D.cpp"
-    "src/vismol2/Mol20DataCall.cpp"
-    "src/vismol2/Mol20DataSource.cpp"
-    "src/vismol2/Mol20Renderer.cpp"
-    "src/vismol2/Mol2Data.cpp"
-    )
-
   # Target definition
-  add_library(${PROJECT_NAME} SHARED ${public_header_files} ${header_files} ${shader_files} ${source_files} ${version_files})
-  target_compile_definitions(${PROJECT_NAME} PRIVATE MEGAMOLCORE_EXPORTS)
-  target_include_directories(${PROJECT_NAME}
-    PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include> "src" "include"
-    PUBLIC ${EXPAT_INCLUDE_DIRS})
-  target_link_libraries(${PROJECT_NAME} 
-    PUBLIC vislib glad glm glowl zlib libpng json lua ${EXPAT_LIBRARIES}
-    PRIVATE libzmq libcppzmq ${CMAKE_DL_LIBS} ${CMAKE_THREAD_LIBS_INIT})
+  add_library(${PROJECT_NAME} SHARED ${public_header_files} ${header_files} ${shader_files} ${source_files}
+                                     ${version_files} ${gl_header_files} ${gl_public_header_files} ${gl_source_files})
 
   # Add libunwind.
   if(UNIX)
@@ -88,6 +74,22 @@ if(BUILD_CORE)
     endif()
   endif()
   
+  target_compile_definitions(${PROJECT_NAME} PRIVATE MEGAMOLCORE_EXPORTS)
+  target_include_directories(${PROJECT_NAME}
+    PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include> "src" "include"
+    PUBLIC ${EXPAT_INCLUDE_DIRS})
+  if(USE_OPENGL)
+    target_include_directories(${PROJECT_NAME}
+      PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include> "${PROJECT_NAME}_gl/src" "${PROJECT_NAME}_gl/include")
+  endif()
+
+  target_link_libraries(${PROJECT_NAME} 
+    PUBLIC vislib glm zlib libpng json lua ${EXPAT_LIBRARIES}
+    PRIVATE libzmq libcppzmq ${CMAKE_DL_LIBS} ${CMAKE_THREAD_LIBS_INIT} abstract_render_api)
+  if(USE_OPENGL)
+    target_link_libraries(${PROJECT_NAME} PUBLIC glowl glad)
+  endif()
+
   if(WIN32)
     set_target_properties(${PROJECT_NAME} PROPERTIES
       LINK_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} /DYNAMICBASE:NO")
@@ -99,19 +101,19 @@ if(BUILD_CORE)
 
   # Source groups in Visual Studio
   set_target_properties(${PROJECT_NAME} PROPERTIES FOLDER base)
-  foreach(FILE_NAME ${source_files})
+  foreach(FILE_NAME ${source_files} ${gl_source_files})
     get_filename_component(FILE_PATH ${FILE_NAME} PATH)
     string(REPLACE "/" "\\" GROUP_NAME ${FILE_PATH})
     string(REGEX REPLACE "^src" "Source Files" GROUP_NAME ${GROUP_NAME})
     source_group(${GROUP_NAME} FILES ${FILE_NAME})
   endforeach()
-  foreach(FILE_NAME ${header_files})
+  foreach(FILE_NAME ${header_files} ${gl_header_files})
     get_filename_component(FILE_PATH ${FILE_NAME} PATH)
     string(REPLACE "/" "\\" GROUP_NAME ${FILE_PATH})
     string(REGEX REPLACE "^src" "Header Files" GROUP_NAME ${GROUP_NAME})
     source_group(${GROUP_NAME} FILES ${FILE_NAME})
   endforeach()
-  foreach(FILE_NAME ${public_header_files})
+  foreach(FILE_NAME ${public_header_files} ${gl_public_header_files})
     get_filename_component(FILE_PATH ${FILE_NAME} PATH)
     string(REPLACE "/" "\\" GROUP_NAME ${FILE_PATH})
     string(REGEX REPLACE "^include\\\\mmcore" "Public Header Files" GROUP_NAME ${GROUP_NAME})
@@ -123,8 +125,11 @@ if(BUILD_CORE)
 
   # Installation rules for generated files
   install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/include/ DESTINATION "include")
-  install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/Shaders/ DESTINATION "share/shaders")
   install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/Resources/ DESTINATION "share/resources")
+  if(USE_OPENGL)
+    install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/${PROJECT_NAME}_gl/Shaders/ DESTINATION "share/shaders")
+  endif()
+  install_external(TARGETS libzmq)
   get_target_property(zmqcpp_include libcppzmq INTERFACE_INCLUDE_DIRECTORIES)
   install(DIRECTORY ${zmqcpp_include} DESTINATION ${CMAKE_INSTALL_PREFIX}/include/libzmq FILES_MATCHING PATTERN "*.hpp")
   if(WIN32)
