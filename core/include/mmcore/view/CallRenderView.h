@@ -111,7 +111,7 @@ namespace view {
         /**
          * ~Dtor.
          */
-        virtual ~CallRenderView(void);
+        ~CallRenderView(void);
 
         /**
          * Answer the blue colour component of the background

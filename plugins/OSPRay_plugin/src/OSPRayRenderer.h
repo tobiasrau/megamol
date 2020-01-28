@@ -5,9 +5,8 @@
 */
 #pragma once
 
-#include "vislib/graphics/gl/GLSLShader.h"
+
 #include "AbstractOSPRayRenderer.h"
-#include "mmcore/view/CallRender3D.h"
 #include "mmcore/CallerSlot.h"
 #include "mmcore/param/ParamSlot.h"
 #include "mmcore/moldyn/MultiParticleDataCall.h"
@@ -44,7 +43,7 @@ public:
     * @return 'true' if the module is available, 'false' otherwise.
     */
     static bool IsAvailable(void) {
-        return vislib::graphics::gl::GLSLShader::AreExtensionsAvailable();
+        return true;
     }
 
     /** Dtor. */
@@ -91,10 +90,6 @@ private:
 
     /** The call for data */
     core::CallerSlot getStructureSlot;
-
-
-    /** The texture shader */
-    vislib::graphics::gl::GLSLShader osprayShader;
 
    // Interface dirty flag
     bool InterfaceIsDirty();

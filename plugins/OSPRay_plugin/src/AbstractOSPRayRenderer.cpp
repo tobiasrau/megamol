@@ -113,132 +113,6 @@ AbstractOSPRayRenderer::AbstractOSPRayRenderer(void)
     this->MakeSlotAvailable(&this->deviceTypeSlot);
 }
 
-void AbstractOSPRayRenderer::renderTexture2D(vislib::graphics::gl::GLSLShader& shader, const uint32_t* fb,
-    const float* db, int& width, int& height, megamol::core::view::CallRender3D_2& cr) {
-
-    auto fbo = cr.FrameBufferObject();
-    //if (fbo != NULL) {
-
-    //    if (fbo->IsValid()) {
-    //        if ((fbo->GetWidth() != width) || (fbo->GetHeight() != height)) {
-    //            fbo->Release();
-    //        }
-    //    }
-    //    if (!fbo->IsValid()) {
-    //        fbo->Create(width, height, GL_RGBA, GL_RGBA, GL_UNSIGNED_BYTE,
-    //            vislib::graphics::gl::FramebufferObject::ATTACHMENT_TEXTURE, GL_DEPTH_COMPONENT);
-    //    }
-    //    if (fbo->IsValid() && !fbo->IsEnabled()) {
-    //        fbo->Enable();
-    //    }
-
-    //    fbo->BindColourTexture();
-    //    glClear(GL_COLOR_BUFFER_BIT);
-    //    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, fb);
-    //    glBindTexture(GL_TEXTURE_2D, 0);
-
-    //    fbo->BindDepthTexture();
-    //    glClear(GL_DEPTH_BUFFER_BIT);
-    //    glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, width, height, 0, GL_DEPTH_COMPONENT, GL_FLOAT, db);
-    //    glBindTexture(GL_TEXTURE_2D, 0);
-
-    //    if (fbo->IsValid()) {
-    //        fbo->Disable();
-    //        // fbo->DrawColourTexture();
-    //        // fbo->DrawDepthTexture();
-    //    }
-    //} else {
-        /*
-        if (this->new_fbo.IsValid()) {
-            if ((this->new_fbo.GetWidth() != width) || (this->new_fbo.GetHeight() != height)) {
-                this->new_fbo.Release();
-            }
-        }
-        if (!this->new_fbo.IsValid()) {
-            this->new_fbo.Create(width, height, GL_RGBA, GL_RGBA, GL_UNSIGNED_BYTE,
-        vislib::graphics::gl::FramebufferObject::ATTACHMENT_TEXTURE, GL_DEPTH_COMPONENT);
-        }
-        if (this->new_fbo.IsValid() && !this->new_fbo.IsEnabled()) {
-            this->new_fbo.Enable();
-        }
-
-        this->new_fbo.BindColourTexture();
-        glClear(GL_COLOR_BUFFER_BIT);
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, fb);
-        glBindTexture(GL_TEXTURE_2D, 0);
-
-        this->new_fbo.BindDepthTexture();
-        glClear(GL_DEPTH_BUFFER_BIT);
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, width, height, 0, GL_DEPTH_COMPONENT, GL_FLOAT, db);
-        glBindTexture(GL_TEXTURE_2D, 0);
-
-
-        glBlitNamedFramebuffer(this->new_fbo.GetID(), 0, 0, 0, width, height, 0, 0, width, height, GL_COLOR_BUFFER_BIT |
-        GL_DEPTH_BUFFER_BIT, GL_NEAREST);
-
-        this->new_fbo.Disable();
-        */
-        glActiveTexture(GL_TEXTURE0);
-        glBindTexture(GL_TEXTURE_2D, this->tex);
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, fb);
-
-        glActiveTexture(GL_TEXTURE1);
-        glBindTexture(GL_TEXTURE_2D, this->depth);
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, width, height, 0, GL_DEPTH_COMPONENT, GL_FLOAT, db);
-        glBindTexture(GL_TEXTURE_2D, 0);
-
-        glEnable(GL_DEPTH_TEST);
-        glEnable(GL_BLEND);
-        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
-        glActiveTexture(GL_TEXTURE0);
-        glBindTexture(GL_TEXTURE_2D, this->tex);
-        glUniform1i(shader.ParameterLocation("tex"), 0);
-
-
-        glActiveTexture(GL_TEXTURE1);
-        glBindTexture(GL_TEXTURE_2D, this->depth);
-        glUniform1i(shader.ParameterLocation("depth"), 1);
-
-
-        glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
-        glBindTexture(GL_TEXTURE_2D, 0);
-
-        glBlendFunc(GL_SRC_ALPHA, GL_ONE);
-        glDisable(GL_BLEND);
-        glDisable(GL_DEPTH_TEST);
-  //  }
-}
-
-
-void AbstractOSPRayRenderer::setupTextureScreen() {
-    // setup color texture
-    glEnable(GL_TEXTURE_2D);
-    glGenTextures(1, &this->tex);
-    glBindTexture(GL_TEXTURE_2D, this->tex);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
-    glBindTexture(GL_TEXTURE_2D, 0);
-
-    //// setup depth texture
-    glGenTextures(1, &this->depth);
-    glBindTexture(GL_TEXTURE_2D, this->depth);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
-    glBindTexture(GL_TEXTURE_2D, 0);
-    glDisable(GL_TEXTURE_2D);
-}
-
-void AbstractOSPRayRenderer::releaseTextureScreen() {
-    glDeleteTextures(1, &this->tex);
-    glDeleteTextures(1, &this->depth);
-}
-
-
 void AbstractOSPRayRenderer::initOSPRay(OSPDevice& dvce) {
     if (dvce == nullptr) {
         ospLoadModule("ispc");
@@ -533,11 +407,13 @@ void AbstractOSPRayRenderer::RendererSettings(OSPRenderer& renderer) {
         ospSet1f(renderer, "aoDistance", this->AOdistance.Param<core::param::FloatParam>()->Value());
         //ospSet1i(renderer, "backgroundEnabled", 0);
         
-        GLfloat bgcolor[4];
-        glGetFloatv(GL_COLOR_CLEAR_VALUE, bgcolor);
-        ospSet3fv(renderer, "bgColor", bgcolor);
-        ospSet1i(renderer, "oneSidedLighting", true);
-        
+        //GLfloat bgcolor[4];
+        //glGetFloatv(GL_COLOR_CLEAR_VALUE, bgcolor);
+        {
+            std::array<float, 4> bgcolor = {0, 0, 0, 0};
+            ospSet3fv(renderer, "bgColor", bgcolor.data());
+            ospSet1i(renderer, "oneSidedLighting", true);
+        }
         break;
     case PATHTRACER:
         if (this->rd_ptBackground.Param<core::param::FilePathParam>()->Value() != vislib::TString("")) {

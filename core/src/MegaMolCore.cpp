@@ -32,7 +32,6 @@
 
 #include "vislib/assert.h"
 #include "vislib/sys/CriticalSection.h"
-#include "vislib/sys/Console.h"
 #include "vislib/sys/File.h"
 #include "vislib/functioncast.h"
 #include "vislib/sys/Log.h"

@@ -12,16 +12,8 @@
 #include "mmcore/factories/ModuleAutoDescription.h"
 #include "mmcore/factories/ModuleDescription.h"
 #include "mmcore/cluster/mpi/MpiProvider.h"
-#include "mmcore/cluster/ClusterController.h"
-#include "mmcore/cluster/ClusterViewMaster.h"
-#include "mmcore/cluster/simple/Client.h"
-#include "mmcore/cluster/simple/Heartbeat.h"
-#include "mmcore/cluster/simple/Server.h"
 #include "mmcore/misc/SiffCSplineFitter.h"
 #include "mmcore/misc/TestSpheresDataSource.h"
-#include "mmcore/moldyn/DataGridder.h"
-#include "mmcore/moldyn/MMPGDDataSource.h"
-#include "mmcore/moldyn/MMPGDWriter.h"
 #include "mmcore/moldyn/MMPLDDataSource.h"
 #include "mmcore/moldyn/MMPLDWriter.h"
 #include "mmcore/moldyn/DirPartColModulate.h"
@@ -46,9 +38,12 @@
 #include "mmcore/view/light/SpotLight.h"
 #include "mmcore/FileStreamProvider.h"
 #include "mmcore/FlagStorage.h"
-#include "mmcore/FlagStorage_GL.h"
-#include "mmcore/DeferredShading.h"
 #ifdef HAS_OPENGL
+#include "mmcore/FlagStorage_GL.h"
+#include "mmcore/moldyn/DataGridder.h"
+#include "mmcore/moldyn/MMPGDDataSource.h"
+#include "mmcore/moldyn/MMPGDWriter.h"
+#include "mmcore/DeferredShading.h"
 #include "mmcore/view/MuxRenderer3D.h"
 #include "mmcore/view/special/CallbackScreenShooter.h"
 #include "mmcore/view/SplitView.h"
@@ -78,16 +73,8 @@ void factories::register_module_classes(factories::ModuleDescriptionManager& ins
     // Register all rendering graph module descriptions here
     //////////////////////////////////////////////////////////////////////
 
-    instance.RegisterAutoDescription<cluster::ClusterController>();
-    instance.RegisterAutoDescription<cluster::ClusterViewMaster>();
-    instance.RegisterAutoDescription<cluster::simple::Client>();
-    instance.RegisterAutoDescription<cluster::simple::Heartbeat>();
-    instance.RegisterAutoDescription<cluster::simple::Server>();
     instance.RegisterAutoDescription<misc::SiffCSplineFitter>();
     instance.RegisterAutoDescription<misc::TestSpheresDataSource>();
-    instance.RegisterAutoDescription<moldyn::DataGridder>();
-    instance.RegisterAutoDescription<moldyn::MMPGDDataSource>();
-    instance.RegisterAutoDescription<moldyn::MMPGDWriter>();
     instance.RegisterAutoDescription<moldyn::MMPLDDataSource>();
     instance.RegisterAutoDescription<moldyn::MMPLDWriter>();
     instance.RegisterAutoDescription<moldyn::DirPartColModulate>();
@@ -111,11 +98,11 @@ void factories::register_module_classes(factories::ModuleDescriptionManager& ins
     instance.RegisterAutoDescription<view::light::QuadLight>();
     instance.RegisterAutoDescription<view::light::SpotLight>();
     instance.RegisterAutoDescription<FlagStorage>();
-    instance.RegisterAutoDescription<FlagStorage_GL>();
-    instance.RegisterAutoDescription<DeferredShading>();
     instance.RegisterAutoDescription<job::TickSwitch>();
 
     #ifdef HAS_OPENGL
+    instance.RegisterAutoDescription<FlagStorage_GL>();
+    instance.RegisterAutoDescription<DeferredShading>();
     instance.RegisterAutoDescription<view::MuxRenderer3D<2>>();
     instance.RegisterAutoDescription<view::MuxRenderer3D<3>>();
     instance.RegisterAutoDescription<view::MuxRenderer3D<4>>();
@@ -143,5 +130,8 @@ void factories::register_module_classes(factories::ModuleDescriptionManager& ins
     instance.RegisterAutoDescription<moldyn::AddClusterColours>();
     instance.RegisterAutoDescription<view::BoundingBoxRenderer>();
     instance.RegisterAutoDescription<view::BlinnPhongRendererDeferred>();
+    instance.RegisterAutoDescription<moldyn::DataGridder>();
+    instance.RegisterAutoDescription<moldyn::MMPGDDataSource>();
+    instance.RegisterAutoDescription<moldyn::MMPGDWriter>();
     #endif
 }

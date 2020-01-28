@@ -13,6 +13,7 @@
 
 #include <array>
 #include <map>
+#include <chrono>
 #include "mmcore/BoundingBoxes_2.h"
 #include "mmcore/CalleeSlot.h"
 #include "mmcore/CallerSlot.h"

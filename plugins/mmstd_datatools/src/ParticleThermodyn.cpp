@@ -18,7 +18,7 @@
 #include "mmcore/param/EnumParam.h"
 #include "mmcore/param/FloatParam.h"
 #include "mmcore/param/IntParam.h"
-#include "vislib/sys/ConsoleProgressBar.h"
+//#include "vislib/sys/ConsoleProgressBar.h"
 #include "vislib/sys/Log.h"
 
 #include "MinSphereWrapper.h"
@@ -246,10 +246,10 @@ bool datatools::ParticleThermodyn::assertData(core::moldyn::MultiParticleDataCal
         // bbox.EnforcePositiveSize(); // paranoia
         auto bbox_cntr = bbox.CalcCenter();
 
-        vislib::sys::ConsoleProgressBar cpb;
+        //vislib::sys::ConsoleProgressBar cpb;
         const int progressDivider = 100;
-        cpb.Start("measuring thermodynamics",
-            static_cast<vislib::sys::ConsoleProgressBar::Size>(newColors.size() / progressDivider));
+        //cpb.Start("measuring thermodynamics",
+        //   static_cast<vislib::sys::ConsoleProgressBar::Size>(newColors.size() / progressDivider));
 
         float theMinTemp = FLT_MAX;
         float theMaxTemp = 0.0f;
@@ -420,8 +420,8 @@ bool datatools::ParticleThermodyn::assertData(core::moldyn::MultiParticleDataCal
                     if (magnitude > metricMax[threadIdx]) metricMax[threadIdx] = magnitude;
 #pragma omp atomic
                     ++counter;
-                    if ((counter % progressDivider) == 0)
-                        cpb.Set(static_cast<vislib::sys::ConsoleProgressBar::Size>(counter / progressDivider));
+                    //if ((counter % progressDivider) == 0)
+                        //cpb.Set(static_cast<vislib::sys::ConsoleProgressBar::Size>(counter / progressDivider));
                 }
             } // end #pragma omp parallel num_threads(num_thr)
             for (auto i = 0; i < num_thr; ++i) {
@@ -430,7 +430,7 @@ bool datatools::ParticleThermodyn::assertData(core::moldyn::MultiParticleDataCal
             }
             allpartcnt += pl.GetCount();
         }
-        cpb.Stop();
+        //cpb.Stop();
 
         this->minMetricSlot.Param<core::param::FloatParam>()->SetValue(theMinTemp);
         this->maxMetricSlot.Param<core::param::FloatParam>()->SetValue(theMaxTemp);

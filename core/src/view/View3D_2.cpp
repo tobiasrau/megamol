@@ -589,7 +589,7 @@ bool View3D_2::OnRenderView(Call& call) {
     this->Render(context);
 
     if (this->overrideCall != nullptr) {
-        this->overrideCall->DisableOutputBuffer();
+        //this->overrideCall->DisableOutputBuffer();
         this->overrideCall = nullptr;
     }
 

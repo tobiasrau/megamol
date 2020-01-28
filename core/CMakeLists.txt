@@ -129,7 +129,7 @@ if(BUILD_CORE)
   if(USE_OPENGL)
     install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/${PROJECT_NAME}_gl/Shaders/ DESTINATION "share/shaders")
   endif()
-  install_external(TARGETS libzmq)
+
   get_target_property(zmqcpp_include libcppzmq INTERFACE_INCLUDE_DIRECTORIES)
   install(DIRECTORY ${zmqcpp_include} DESTINATION ${CMAKE_INSTALL_PREFIX}/include/libzmq FILES_MATCHING PATTERN "*.hpp")
   if(WIN32)

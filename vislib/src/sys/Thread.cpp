@@ -18,8 +18,6 @@
 #include "vislib/Trace.h"
 #include "vislib/UnsupportedOperationException.h"
 
-#include "DynamicFunctionPointer.h"
-
 #include <cstdio>
 #include <iostream>
 

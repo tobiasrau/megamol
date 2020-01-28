@@ -11,7 +11,7 @@
 #include <cstdint>
 #include <algorithm>
 #include "vislib/sys/Log.h"
-#include "vislib/sys/ConsoleProgressBar.h"
+//#include "vislib/sys/ConsoleProgressBar.h"
 #include "vislib/sys/Thread.h"
 #include <cassert>
 
@@ -125,8 +125,8 @@ bool datatools::ParticleSortFixHack::updateIDdata(megamol::core::moldyn::MultiPa
     unsigned int frame_cnt = inData.FrameCount();
     this->ids.resize(frame_cnt); // allocate data for all frames! We are memory-hungry! but I don't care
 
-    vislib::sys::ConsoleProgressBar cpb;
-    cpb.Start("Processing frame data", frame_cnt);
+    //vislib::sys::ConsoleProgressBar cpb;
+    //cpb.Start("Processing frame data", frame_cnt);
 
     std::vector<cur_part_info> dists_fix;
     std::vector<cur_part_info*> dists;
@@ -379,7 +379,7 @@ bool datatools::ParticleSortFixHack::updateIDdata(megamol::core::moldyn::MultiPa
         }
 
         inData.Unlock();
-        cpb.Set(frame_i);
+        //cpb.Set(frame_i);
     }
 
 #if 0
@@ -509,11 +509,11 @@ bool datatools::ParticleSortFixHack::updateIDdata(megamol::core::moldyn::MultiPa
         }
 
         inData.Unlock();
-        cpb.Set(frame_i);
+        //cpb.Set(frame_i);
     }
 #endif
 
-    cpb.Stop();
+    //cpb.Stop();
 
     // now we make the id list global!
     for (unsigned int frame_i = 1; frame_i < frame_cnt; ++frame_i) {

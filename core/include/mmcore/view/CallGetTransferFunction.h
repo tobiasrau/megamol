@@ -5,18 +5,11 @@
  * Alle Rechte vorbehalten.
  */
 
-#ifndef MEGAMOLCORE_CALLGETTRANSFERFUNCTION_H_INCLUDED
-#define MEGAMOLCORE_CALLGETTRANSFERFUNCTION_H_INCLUDED
-#if (defined(_MSC_VER) && (_MSC_VER > 1000))
-#    pragma once
-#endif /* (defined(_MSC_VER) && (_MSC_VER > 1000)) */
+#pragma once
 
 #include "mmcore/Call.h"
 #include "mmcore/api/MegaMolCore.h"
 #include "mmcore/factories/CallAutoDescription.h"
-
-#include "vislib/graphics/gl/IncludeAllGL.h"
-#include "vislib/graphics/gl/GLSLShader.h"
 #include <array>
 
 namespace megamol {
@@ -37,7 +30,7 @@ namespace view {
 class MEGAMOLCORE_API CallGetTransferFunction : public Call {
 public:
     /** possible texture formats */
-    enum TextureFormat { TEXTURE_FORMAT_RGB = GL_RGB, TEXTURE_FORMAT_RGBA = GL_RGBA };
+    enum TextureFormat { TEXTURE_FORMAT_RGB, TEXTURE_FORMAT_RGBA };
 
     /**
      * Answer the name of the objects of this description.
@@ -122,17 +115,6 @@ public:
      */
     inline std::array<float, 2> Range(void) const { return this->range; }
 
-	/**
-	 * Bind convenience (to be used with tfconvenience snippet). Usually, one 
-	 * wants to set `activeTexture` to `GL_TEXTURE0` and `textureUniform` to `0`.
-	 */
-    void BindConvenience(vislib::graphics::gl::GLSLShader& shader, GLenum activeTexture, int textureUniform);
-
-	/**
-	 * Unbinds convenience.
-	 */
-    void UnbindConvenience();
-
     /**
      * Answer whether the connected transferfunction is dirty
      *
@@ -210,5 +192,3 @@ typedef factories::CallAutoDescription<CallGetTransferFunction> CallGetTransferF
 } /* end namespace view */
 } /* end namespace core */
 } /* end namespace megamol */
-
-#endif /* MEGAMOLCORE_CALLGETTRANSFERFUNCTION_H_INCLUDED */

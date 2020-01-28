@@ -68,7 +68,7 @@ public:
     CallRender3D_2(void);
 
     /** Dtor. */
-    virtual ~CallRender3D_2(void);
+    ~CallRender3D_2(void);
 
     /**
      * Answer the mouse flags

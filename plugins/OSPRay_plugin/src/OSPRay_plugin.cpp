@@ -16,7 +16,6 @@
 
 #include "OSPRaySphereGeometry.h"
 #include "OSPRayNHSphereGeometry.h"
-#include "OSPRayTriangleMesh.h"
 #include "OSPRayStructuredVolume.h"
 #include "OSPRayAPIStructure.h"
 #include "OSPRayLineGeometry.h"
@@ -37,6 +36,9 @@
 #include "OSPRayPKDGeometry.h"
 #include "OSPRayAOVSphereGeometry.h"
 
+#ifdef HAS_OPENGL
+#include "OSPRayTriangleMesh.h"
+#endif
 
 /* anonymous namespace hides this type from any other object files */
 namespace {
@@ -68,7 +70,6 @@ namespace {
 
                this->module_descriptions.RegisterAutoDescription<megamol::ospray::OSPRaySphereGeometry>();
                this->module_descriptions.RegisterAutoDescription<megamol::ospray::OSPRayNHSphereGeometry>();
-               this->module_descriptions.RegisterAutoDescription<megamol::ospray::OSPRayTriangleMesh>();
                this->module_descriptions.RegisterAutoDescription<megamol::ospray::OSPRayStructuredVolume>();
                this->module_descriptions.RegisterAutoDescription<megamol::ospray::OSPRayAPIStructure>();
                this->module_descriptions.RegisterAutoDescription<megamol::ospray::OSPRayLineGeometry>();
@@ -87,6 +88,9 @@ namespace {
                this->module_descriptions.RegisterAutoDescription<megamol::ospray::OSPRayPKDGeometry>();
                this->module_descriptions.RegisterAutoDescription<megamol::ospray::OSPRayAOVSphereGeometry>();
 
+               #ifdef HAS_OPENGL
+               this->module_descriptions.RegisterAutoDescription<megamol::ospray::OSPRayTriangleMesh>();
+               #endif
 
             // register calls here:
 

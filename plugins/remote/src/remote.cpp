@@ -13,11 +13,12 @@
 #include "vislib/vislibversion.h"
 
 // Modules
-#include "FBOCompositor2.h"
-#include "FBOTransmitter2.h"
 #include "HeadnodeServer.h"
 #include "RendernodeView.h"
-
+#ifdef HAS_OPENGL
+#include "FBOCompositor2.h"
+#include "FBOTransmitter2.h"
+#endif
 // Calls
 
 
@@ -46,8 +47,10 @@ public:
     virtual void registerClasses(void) {
 
         // register modules here:
+        #ifdef HAS_OPENGL
         this->module_descriptions.RegisterAutoDescription<megamol::remote::FBOTransmitter2>();
         this->module_descriptions.RegisterAutoDescription<megamol::remote::FBOCompositor2>();
+        #endif
         this->module_descriptions.RegisterAutoDescription<megamol::remote::HeadnodeServer>();
         this->module_descriptions.RegisterAutoDescription<megamol::remote::RendernodeView>();
 

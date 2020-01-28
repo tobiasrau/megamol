@@ -32,7 +32,6 @@
 #include "MPDCListsConcatenate.h"
 #include "MPIParticleCollector.h"
 #include "MPIVolumeAggregator.h"
-#include "MeshTranslateRotateScale.h"
 #include "ModColIRange.h"
 #include "MultiParticleRelister.h"
 #include "NullParticleWriter.h"
@@ -45,11 +44,9 @@
 #include "ParticleColorSignThreshold.h"
 #include "ParticleColorSignedDistance.h"
 #include "ParticleDataSequenceConcatenate.h"
-#include "ParticleDensityOpacityModule.h"
 #include "ParticleIColFilter.h"
 #include "ParticleIColGradientField.h"
 #include "ParticleIdentitySort.h"
-#include "ParticleListMergeModule.h"
 #include "ParticleListSelector.h"
 #include "ParticleNeighborhood.h"
 #include "ParticleNeighborhoodGraph.h"
@@ -57,7 +54,6 @@
 #include "ParticleSortFixHack.h"
 #include "ParticleThermodyn.h"
 #include "ParticleThinner.h"
-#include "ParticleTranslateRotateScale.h"
 #include "ParticleVelocities.h"
 #include "ParticleVisibilityFromVolume.h"
 #include "ParticlesToDensity.h"
@@ -67,10 +63,6 @@
 #include "SyncedMMPLDProvider.h"
 #include "io/MMGDDDataSource.h"
 #include "io/MMGDDWriter.h"
-#include "io/PLYDataSource.h"
-#include "io/PlyWriter.h"
-#include "io/STLDataSource.h"
-#include "io/TriMeshSTLWriter.h"
 #include "io/CPERAWDataSource.h"
 #include "mmstd_datatools/GraphDataCall.h"
 #include "mmstd_datatools/MultiIndexListDataCall.h"
@@ -83,8 +75,18 @@
 #include "table/TableColumnScaler.h"
 #include "table/TableJoin.h"
 #include "table/TableObserverPlane.h"
-#include "table/TableToLines.h"
 #include "table/TableToParticles.h"
+#ifdef HAS_OPENGL
+#include "MeshTranslateRotateScale.h"
+#include "ParticleDensityOpacityModule.h"
+#include "ParticleListMergeModule.h"
+#include "ParticleTranslateRotateScale.h"
+#include "io/PLYDataSource.h"
+#include "io/PlyWriter.h"
+#include "io/STLDataSource.h"
+#include "io/TriMeshSTLWriter.h"
+#include "table/TableToLines.h"
+#endif
 
 /*
  * mmplgPluginAPIVersion
@@ -163,15 +165,14 @@ public:
     virtual void registerClasses(void) {
         // register modules here:
         this->module_descriptions.RegisterAutoDescription<megamol::stdplugin::datatools::DataSetTimeRewriteModule>();
-        this->module_descriptions.RegisterAutoDescription<megamol::stdplugin::datatools::ParticleListMergeModule>();
+
         this->module_descriptions.RegisterAutoDescription<megamol::stdplugin::datatools::DataFileSequenceStepper>();
         this->module_descriptions.RegisterAutoDescription<megamol::stdplugin::datatools::SphereDataUnifier>();
         this->module_descriptions.RegisterAutoDescription<megamol::stdplugin::datatools::ParticleThinner>();
         this->module_descriptions.RegisterAutoDescription<megamol::stdplugin::datatools::OverrideParticleGlobals>();
         this->module_descriptions.RegisterAutoDescription<megamol::stdplugin::datatools::ParticleRelaxationModule>();
         this->module_descriptions.RegisterAutoDescription<megamol::stdplugin::datatools::ParticleListSelector>();
-        this->module_descriptions
-            .RegisterAutoDescription<megamol::stdplugin::datatools::ParticleDensityOpacityModule>();
+
         this->module_descriptions.RegisterAutoDescription<megamol::stdplugin::datatools::ForceCubicCBoxModule>();
         this->module_descriptions.RegisterAutoDescription<megamol::stdplugin::datatools::DumpIColorHistogramModule>();
         this->module_descriptions.RegisterAutoDescription<megamol::stdplugin::datatools::DataFileSequence>();
@@ -191,7 +192,7 @@ public:
             .RegisterAutoDescription<megamol::stdplugin::datatools::ParticleBoxGeneratorDataSource>();
         this->module_descriptions.RegisterAutoDescription<megamol::stdplugin::datatools::table::CSVDataSource>();
         this->module_descriptions.RegisterAutoDescription<megamol::stdplugin::datatools::TableToParticles>();
-        this->module_descriptions.RegisterAutoDescription<megamol::stdplugin::datatools::TableToLines>();
+
         this->module_descriptions.RegisterAutoDescription<megamol::stdplugin::datatools::table::MMFTDataSource>();
         this->module_descriptions.RegisterAutoDescription<megamol::stdplugin::datatools::table::MMFTDataWriter>();
         this->module_descriptions.RegisterAutoDescription<megamol::stdplugin::datatools::ParticleColorChannelSelect>();
@@ -216,17 +217,13 @@ public:
         this->module_descriptions.RegisterAutoDescription<megamol::stdplugin::datatools::ParticleVelocities>();
         this->module_descriptions.RegisterAutoDescription<megamol::stdplugin::datatools::ParticleNeighborhood>();
         this->module_descriptions.RegisterAutoDescription<megamol::stdplugin::datatools::ParticleThermodyn>();
-        this->module_descriptions.RegisterAutoDescription<megamol::stdplugin::datatools::io::PlyWriter>();
+
         this->module_descriptions.RegisterAutoDescription<megamol::stdplugin::datatools::MPIParticleCollector>();
         this->module_descriptions.RegisterAutoDescription<megamol::stdplugin::datatools::MPIVolumeAggregator>();
         this->module_descriptions.RegisterAutoDescription<megamol::stdplugin::datatools::ParticlesToDensity>();
         this->module_descriptions.RegisterAutoDescription<megamol::stdplugin::datatools::MPDCListsConcatenate>();
-        this->module_descriptions.RegisterAutoDescription<megamol::stdplugin::datatools::io::STLDataSource>();
-        this->module_descriptions.RegisterAutoDescription<megamol::stdplugin::datatools::io::TriMeshSTLWriter>();
-        this->module_descriptions
-            .RegisterAutoDescription<megamol::stdplugin::datatools::ParticleTranslateRotateScale>();
-        this->module_descriptions.RegisterAutoDescription<megamol::stdplugin::datatools::io::PLYDataSource>();
-        this->module_descriptions.RegisterAutoDescription<megamol::stdplugin::datatools::MeshTranslateRotateScale>();
+
+
         this->module_descriptions
             .RegisterAutoDescription<megamol::stdplugin::datatools::ParticleVisibilityFromVolume>();
         this->module_descriptions.RegisterAutoDescription<megamol::stdplugin::datatools::CSVFileSequence>();
@@ -237,6 +234,20 @@ public:
         this->module_descriptions.RegisterAutoDescription<megamol::stdplugin::datatools::SyncedMMPLDProvider>();
         this->module_descriptions.RegisterAutoDescription<megamol::stdplugin::datatools::table::TableManipulator>();
         this->module_descriptions.RegisterAutoDescription<megamol::stdplugin::datatools::io::CPERAWDataSource>();
+
+        #ifdef HAS_OPENGL
+        this->module_descriptions
+            .RegisterAutoDescription<megamol::stdplugin::datatools::ParticleTranslateRotateScale>();
+        this->module_descriptions.RegisterAutoDescription<megamol::stdplugin::datatools::io::PLYDataSource>();
+        this->module_descriptions.RegisterAutoDescription<megamol::stdplugin::datatools::MeshTranslateRotateScale>();
+        this->module_descriptions.RegisterAutoDescription<megamol::stdplugin::datatools::io::STLDataSource>();
+        this->module_descriptions.RegisterAutoDescription<megamol::stdplugin::datatools::io::TriMeshSTLWriter>();
+        this->module_descriptions.RegisterAutoDescription<megamol::stdplugin::datatools::io::PlyWriter>();
+        this->module_descriptions.RegisterAutoDescription<megamol::stdplugin::datatools::TableToLines>();
+        this->module_descriptions
+            .RegisterAutoDescription<megamol::stdplugin::datatools::ParticleDensityOpacityModule>();
+        this->module_descriptions.RegisterAutoDescription<megamol::stdplugin::datatools::ParticleListMergeModule>();
+        #endif
 
         // register calls here:
         this->call_descriptions.RegisterAutoDescription<megamol::stdplugin::datatools::table::TableDataCall>();

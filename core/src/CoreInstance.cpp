@@ -22,9 +22,6 @@
 #include "mmcore/CallerSlot.h"
 #include "mmcore/CoreInstance.h"
 #include "mmcore/Module.h"
-#include "mmcore/cluster/ClusterController.h"
-#include "mmcore/cluster/ClusterViewMaster.h"
-#include "mmcore/cluster/simple/Server.h"
 #include "mmcore/job/JobThread.h"
 #include "mmcore/param/ButtonParam.h"
 #include "mmcore/param/ParamSlot.h"
@@ -68,7 +65,6 @@
 #include "vislib/Trace.h"
 #include "vislib/functioncast.h"
 #include "vislib/memutils.h"
-#include "vislib/sys/Console.h"
 #include "vislib/sys/CriticalSection.h"
 #include "vislib/sys/FastFile.h"
 #include "vislib/sys/Log.h"
@@ -2366,13 +2362,6 @@ void megamol::core::CoreInstance::SetupGraphFromNetwork(const void* data) {
             pos += modClass.Length() + 1;
             vislib::StringA modName(dat.GetBodyAsAt<char>(pos));
             pos += modName.Length() + 1;
-
-            if (modClass.Equals(cluster::ClusterViewMaster::ClassName()) ||
-                modClass.Equals(cluster::ClusterController::ClassName()) ||
-                modClass.Equals(cluster::simple::Server::ClassName())) {
-                // these are infra structure modules and not to be synced
-                continue;
-            }
 
             factories::ModuleDescription::ptr d = this->GetModuleDescriptionManager().Find(modClass);
             if (!d) {

@@ -9,8 +9,6 @@
 #include "mmcore/param/BoolParam.h"
 #include "mmcore/param/EnumParam.h"
 #include "vislib/graphics/CameraParamsStore.h"
-#include "vislib/graphics/gl/IncludeAllGL.h"
-#include "vislib/graphics/gl/ShaderSource.h"
 #include "vislib/math/Vector.h"
 #include "vislib/sys/Log.h"
 
@@ -33,7 +31,6 @@ ospray::OSPRayRenderer::OSPRaySphereRenderer
 OSPRayRenderer::OSPRayRenderer(void)
     : AbstractOSPRayRenderer()
 	, cam()
-    , osprayShader()
     , getStructureSlot("getStructure", "Connects to an OSPRay structure")
 
 {
@@ -58,7 +55,6 @@ OSPRayRenderer::OSPRayRenderer(void)
 ospray::OSPRayRenderer::~OSPRaySphereRenderer
 */
 OSPRayRenderer::~OSPRayRenderer(void) {
-    this->osprayShader.Release();
     this->Release();
 }
 
@@ -67,43 +63,6 @@ OSPRayRenderer::~OSPRayRenderer(void) {
 ospray::OSPRayRenderer::create
 */
 bool OSPRayRenderer::create() {
-    ASSERT(IsAvailable());
-
-    vislib::graphics::gl::ShaderSource vert, frag;
-
-    if (!instance()->ShaderSourceFactory().MakeShaderSource("ospray::vertex", vert)) {
-        return false;
-    }
-    if (!instance()->ShaderSourceFactory().MakeShaderSource("ospray::fragment", frag)) {
-        return false;
-    }
-
-    try {
-        if (!this->osprayShader.Create(vert.Code(), vert.Count(), frag.Code(), frag.Count())) {
-            vislib::sys::Log::DefaultLog.WriteMsg(
-                vislib::sys::Log::LEVEL_ERROR, "Unable to compile ospray shader: Unknown error\n");
-            return false;
-        }
-    } catch (vislib::graphics::gl::AbstractOpenGLShader::CompileException ce) {
-        vislib::sys::Log::DefaultLog.WriteMsg(vislib::sys::Log::LEVEL_ERROR,
-            "Unable to compile ospray shader: (@%s): %s\n",
-            vislib::graphics::gl::AbstractOpenGLShader::CompileException::CompileActionName(ce.FailedAction()),
-            ce.GetMsgA());
-        return false;
-    } catch (vislib::Exception e) {
-        vislib::sys::Log::DefaultLog.WriteMsg(
-            vislib::sys::Log::LEVEL_ERROR, "Unable to compile ospray shader: %s\n", e.GetMsgA());
-        return false;
-    } catch (...) {
-        vislib::sys::Log::DefaultLog.WriteMsg(
-            vislib::sys::Log::LEVEL_ERROR, "Unable to compile ospray shader: Unknown exception\n");
-        return false;
-    }
-
-    // this->initOSPRay(device);
-    this->setupTextureScreen();
-    // this->setupOSPRay(renderer, camera, world, "scivis");
-
     return true;
 }
 
@@ -114,7 +73,6 @@ void OSPRayRenderer::release() {
     if (camera != NULL) ospRelease(camera);
     if (world != NULL) ospRelease(world);
     if (renderer != NULL) ospRelease(renderer);
-    releaseTextureScreen();
 }
 
 /*
@@ -196,8 +154,6 @@ bool OSPRayRenderer::Render(megamol::core::view::CallRender3D_2& cr) {
 	// Generate complete snapshot and calculate matrices
 	cam = tmp_newcam;
 
-    // glDisable(GL_CULL_FACE);
-
     // new framebuffer at resize action
     // bool triggered = false;
     if (imgSize.x != cam.resolution_gate().width() ||
@@ -232,7 +188,6 @@ bool OSPRayRenderer::Render(megamol::core::view::CallRender3D_2& cr) {
     setupOSPRayCamera(camera, cam);
     ospCommit(camera);
 
-    osprayShader.Enable();
     // if nothing changes, the image is rendered multiple times
     if (data_has_changed || material_has_changed || light_has_changed || cam_has_changed || renderer_has_changed ||
         !(this->accumulateSlot.Param<core::param::BoolParam>()->Value()) ||
@@ -313,7 +268,9 @@ bool OSPRayRenderer::Render(megamol::core::view::CallRender3D_2& cr) {
         //    this->number++;
         //}
 
-        this->renderTexture2D(osprayShader, fb, db.data(), imgSize.x, imgSize.y, cr);
+        // osprayShader.Enable();
+        //this->renderTexture2D(osprayShader, fb, db.data(), imgSize.x, imgSize.y, cr);
+        // osprayShader.Disable();
 
         // clear stuff
         ospUnmapFrameBuffer(fb, framebuffer);
@@ -326,11 +283,13 @@ bool OSPRayRenderer::Render(megamol::core::view::CallRender3D_2& cr) {
         ospRenderFrame(framebuffer, renderer, OSP_FB_COLOR | OSP_FB_DEPTH | OSP_FB_ACCUM);
         fb = (uint32_t*)ospMapFrameBuffer(framebuffer, OSP_FB_COLOR);
 
-        this->renderTexture2D(osprayShader, fb, db.data(), imgSize.x, imgSize.y, cr);
+        // osprayShader.Enable();
+        //this->renderTexture2D(osprayShader, fb, db.data(), imgSize.x, imgSize.y, cr);
+        //osprayShader.Disable();
         ospUnmapFrameBuffer(fb, framebuffer);
     }
 
-    osprayShader.Disable();
+
 
     return true;
 }

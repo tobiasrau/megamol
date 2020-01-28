@@ -29,7 +29,7 @@ namespace view {
      *
      * Handles the output buffer control.
      */
-    class MEGAMOLCORE_API AbstractCallRender : public InputCall, public virtual AbstractRenderOutput {
+    class MEGAMOLCORE_API AbstractCallRender : public InputCall {
     public:
         static const unsigned int FnRender = 5;
         static const unsigned int FnGetExtents = 6;

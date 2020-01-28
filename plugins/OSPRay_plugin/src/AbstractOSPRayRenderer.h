@@ -14,8 +14,6 @@
 #include "mmcore/view/Renderer3DModule_2.h"
 #include "mmcore/view/light/CallLight.h"
 #include "ospray/ospray.h"
-#include "vislib/graphics/FramebufferObject.h"
-#include "vislib/graphics/GLSLShader.h"
 
 namespace megamol {
 namespace ospray {
@@ -32,32 +30,6 @@ protected:
      * initializes OSPRay
      */
     void initOSPRay(OSPDevice& dvce);
-
-    /**
-     * helper function for rendering the OSPRay texture
-     * @param GLSL shader
-     * @param GL texture object
-     * @param OSPRay color texture
-     * @param OSPRay depth texture
-     * @param GL vertex array object
-     * @param image/window width
-     * @param image/window heigth
-     */
-    void renderTexture2D(vislib::graphics::gl::GLSLShader& shader, const uint32_t* fb, const float* db, int& width,
-        int& height, core::view::CallRender3D_2& cr);
-
-    /**
-     * helper function for setting up the OSPRay screen
-     * @param GL vertex array
-     * @param GL vertex buffer object
-     * @param GL texture object
-     */
-    void setupTextureScreen();
-
-    /**
-     * Releases the OGL content created by setupTextureScreen
-     */
-    void releaseTextureScreen();
 
     /**
      * helper function for initializing OSPRay
@@ -94,9 +66,7 @@ protected:
     OSPFrameBuffer newFrameBuffer(osp::vec2i& imgSize, const OSPFrameBufferFormat format = OSP_FB_RGBA8,
         const uint32_t frameBufferChannels = OSP_FB_COLOR);
 
-    // vertex array, vertex buffer object, texture
-    GLuint vaScreen, vbo, tex, depth;
-    vislib::graphics::gl::FramebufferObject new_fbo;
+
 
     /**
      * Reads the structure map and uses its parameteres to
