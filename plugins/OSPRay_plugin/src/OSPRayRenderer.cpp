@@ -256,17 +256,13 @@ bool OSPRayRenderer::Render(megamol::core::view::CallRender3D_2& cr) {
 
         // write a sequence of single pictures while the screenshooter is running
         // only for debugging
-        // if (triggered) {
-        //    std::ostringstream oss;
-        //    oss << "ospframe" << this->number << ".ppm";
-        //    std::string bla = oss.str();
-        //    const char* fname = bla.c_str();
-        //    osp::vec2i isize;
-        //    isize.x = cr->GetCameraParameters()->TileRect().GetSize().GetWidth();
-        //    isize.y = cr->GetCameraParameters()->TileRect().GetSize().GetHeight();
-        //    writePPM(fname, isize, fb);
-        //    this->number++;
-        //}
+         if (true) {
+            std::ostringstream oss;
+            oss << "ospframe" << ".ppm";
+            std::string bla = oss.str();
+            const char* fname = bla.c_str();
+            writePPM(fname, imgSize, fb);
+         }
 
         // osprayShader.Enable();
         //this->renderTexture2D(osprayShader, fb, db.data(), imgSize.x, imgSize.y, cr);

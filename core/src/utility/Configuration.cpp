@@ -21,7 +21,6 @@
 #include "vislib/sys/File.h"
 #include "vislib/sys/Path.h"
 #include "vislib/sys/Log.h"
-#include "vislib/sys/Console.h"
 #include "vislib/UTF8Encoder.h"
 #include "vislib/NoSuchElementException.h"
 #include "vislib/sys/DirectoryIterator.h"

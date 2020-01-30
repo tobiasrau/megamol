@@ -5,11 +5,11 @@
  * Alle Rechte vorbehalten.
  */
 
-#include "vislib/graphics/gl/FramebufferObject.h"
+#include "vislib/graphics/FramebufferObject.h"
 
 #include <climits>
 
-#include "vislib/graphics/gl/glverify.h"
+#include "vislib/graphics/glverify.h"
 #include "vislib/IllegalParamException.h"
 #include "vislib/IllegalStateException.h"
 #include "vislib/memutils.h"

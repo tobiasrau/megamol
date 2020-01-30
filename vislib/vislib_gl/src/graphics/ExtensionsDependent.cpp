@@ -5,7 +5,7 @@
  * Alle Rechte vorbehalten.
  */
 
-#include "vislib/graphics/gl/ExtensionsDependent.h"
+#include "vislib/graphics/ExtensionsDependent.h"
 
 /*
  * This file is intentionally empty.

@@ -5,12 +5,12 @@
  * Alle Rechte vorbehalten.
  */
 
-#include "vislib/graphics/gl/OpenGLVISLogo.h"
+#include "vislib/graphics/OpenGLVISLogo.h"
 
 #ifdef _WIN32
 #include <Windows.h>
 #endif /* _WIN32 */
-#include "vislib/graphics/gl/IncludeAllGL.h"
+#include "vislib/graphics/IncludeAllGL.h"
 #define _USE_MATH_DEFINES
 #include <cmath>
 

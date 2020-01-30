@@ -6,13 +6,13 @@
  * Copyright (C) 2009 by Christoph Müller. Alle Rechte vorbehalten.
  */
 
-#include "vislib/graphics/gl/AbstractOpenGLTexture.h"
+#include "vislib/graphics/AbstractOpenGLTexture.h"
 
 #include <climits>
 
 #include "vislib/assert.h"
 #include "vislib/IllegalParamException.h"
-#include "vislib/graphics/gl/glverify.h"
+#include "vislib/graphics/glverify.h"
 #include "vislib/Trace.h"
 #include "vislib/UnsupportedOperationException.h"
 

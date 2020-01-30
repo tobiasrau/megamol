@@ -29,7 +29,6 @@
 #include "vislib/Iterator.h"
 #include "vislib/sys/CmdLineProvider.h"
 #include "vislib/ColumnFormatter.h"
-#include "vislib/sys/Console.h"
 
 
 namespace vislib {

@@ -6,11 +6,11 @@
  * Copyright (C) 2009 by Christoph Müller. Alle Rechte vorbehalten.
  */
 
-#include "vislib/graphics/gl/OpenGLTexture2D.h"
+#include "vislib/graphics/OpenGLTexture2D.h"
 
 #include "vislib/assert.h"
 #include "vislib/IllegalParamException.h"
-#include "vislib/graphics/gl/glverify.h"
+#include "vislib/graphics/glverify.h"
 #include "vislib/math/mathfunctions.h"
 #include "vislib/Trace.h"
 #include "vislib/UnsupportedOperationException.h"

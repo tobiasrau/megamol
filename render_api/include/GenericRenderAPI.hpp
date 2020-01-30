@@ -19,7 +19,7 @@ namespace megamol {
 namespace render_api {
 
 struct WindowPlacement {
-    int x = 100, y = 100, w = 800, h = 600, mon = 0;
+    int x = 0, y = 0, w = 1200, h = 720, mon = 0;
     bool pos = false;
     bool size = false;
 };

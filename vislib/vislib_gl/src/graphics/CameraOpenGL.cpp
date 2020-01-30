@@ -6,9 +6,9 @@
  * Copyright (C) 2007, Sebastian Grottel. All rights reserved.
  */
 
-#include "vislib/graphics/gl/CameraOpenGL.h"
+#include "vislib/graphics/CameraOpenGL.h"
 
-#include "vislib/graphics/gl/IncludeAllGL.h"
+#include "vislib/graphics/IncludeAllGL.h"
 #include <GL/glu.h>
 
 #include "vislib/assert.h"

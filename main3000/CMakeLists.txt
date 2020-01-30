@@ -45,9 +45,6 @@ if(BUILD_MAIN3000)
 
   # install executable
   install(TARGETS ${PROJECT_NAME} RUNTIME DESTINATION "bin" ARCHIVE DESTINATION "lib")
-  if(USE_GLFW)
-    install_external(TARGETS glfw3)
-  endif()
   if (WIN32)
     if(MSVC)
       install(FILES $<TARGET_PDB_FILE:${PROJECT_NAME}> DESTINATION bin OPTIONAL)

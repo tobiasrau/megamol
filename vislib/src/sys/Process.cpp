@@ -21,7 +21,6 @@
 
 #include "vislib/assert.h"
 #include "vislib/sys/AutoHandle.h"
-#include "vislib/sys/Console.h"
 #include "vislib/sys/error.h"
 #include "vislib/IllegalParamException.h"
 #include "vislib/IllegalStateException.h"
