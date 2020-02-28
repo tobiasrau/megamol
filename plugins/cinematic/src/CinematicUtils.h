@@ -24,10 +24,10 @@
 #include "mmcore/utility/ShaderSourceFactory.h"
 #include "mmcore/utility/SDFFont.h"
 
-#include "vislib/graphics/gl/IncludeAllGL.h"
-#include "vislib/graphics/gl/GLSLShader.h"
-#include "vislib/graphics/gl/ShaderSource.h"
-#include "vislib/graphics/gl/OpenGLTexture2D.h"
+#include "vislib/graphics/IncludeAllGL.h"
+#include "vislib/graphics/GLSLShader.h"
+#include "vislib/graphics/ShaderSource.h"
+#include "vislib/graphics/OpenGLTexture2D.h"
 
 #include "vislib/sys/Log.h"
 

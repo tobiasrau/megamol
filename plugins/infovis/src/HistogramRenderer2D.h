@@ -6,7 +6,7 @@
 #include "mmcore/FlagCall.h"
 #include "mmcore/param/ParamSlot.h"
 #include "mmcore/utility/SDFFont.h"
-#include "mmcore/view/CallGetTransferFunction.h"
+#include "mmcore/view/CallGetTransferFunction_gl.h"
 #include "mmstd_datatools/table/TableDataCall.h"
 
 #include "Renderer2D.h"

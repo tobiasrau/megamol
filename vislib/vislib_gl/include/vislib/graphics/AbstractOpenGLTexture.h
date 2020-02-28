@@ -18,9 +18,9 @@
 #ifdef _WIN32
 #include <Windows.h>
 #endif /* _WIN32 */
-#include "vislib/graphics/gl/IncludeAllGL.h"
+#include "vislib/graphics/IncludeAllGL.h"
 
-#include "vislib/graphics/gl/ExtensionsDependent.h"
+#include "vislib/graphics/ExtensionsDependent.h"
 
 
 namespace vislib {

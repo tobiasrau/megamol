@@ -15,21 +15,11 @@
 #include "mmcore/param/StringParam.h"
 #include "mmcore/view/CallRender3D_2.h"
 #include "mmcore/utility/ColourParser.h"
-#include "vislib/graphics/gl/IncludeAllGL.h"
+#include "vislib/graphics/IncludeAllGL.h"
 
-
-#include "mmcore/param/ButtonParam.h"
-#include "mmcore/param/StringParam.h"
-#include "mmcore/param/FilePathParam.h"
-#include "vislib/sys/Log.h"
-#include "vislib/math/mathfunctions.h"
-#include "vislib/sys/MemmappedFile.h"
-#include "vislib/math/ShallowPoint.h"
-#include "vislib/math/Vector.h"
 
 using namespace megamol;
 using namespace megamol::trisoup;
-
 using namespace megamol::core;
 
 

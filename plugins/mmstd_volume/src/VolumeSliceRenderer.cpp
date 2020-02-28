@@ -16,8 +16,8 @@
 #include "mmcore/view/CallRender3D_2.h"
 #include "mmcore/view/Renderer3DModule_2.h"
 
-#include "vislib/graphics/gl/GLSLShader.h"
-#include "vislib/graphics/gl/ShaderSource.h"
+#include "vislib/graphics/GLSLShader.h"
+#include "vislib/graphics/ShaderSource.h"
 #include "vislib/math/Plane.h"
 #include "vislib/math/Point.h"
 #include "vislib/sys/Log.h"

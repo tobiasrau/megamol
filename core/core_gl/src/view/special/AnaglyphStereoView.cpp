@@ -13,7 +13,7 @@
 #include "mmcore/view/CallRenderView.h"
 #include "vislib/sys/Log.h"
 #include "vislib/Trace.h"
-#include "vislib/graphics/gl/IncludeAllGL.h"
+#include "vislib/graphics/IncludeAllGL.h"
 
 using namespace megamol::core;
 

@@ -9,7 +9,7 @@
 #include "mesh/GPUMaterialCollection.h"
 
 #include "mmcore/CoreInstance.h"
-#include "vislib/graphics/gl/ShaderSource.h"
+#include "vislib/graphics/ShaderSource.h"
 
 
 namespace megamol {

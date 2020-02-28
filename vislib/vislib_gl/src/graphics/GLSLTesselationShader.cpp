@@ -9,10 +9,10 @@
 #include <Windows.h>
 #endif /* _WIN32 */
 
-#include "vislib/graphics/gl/GLSLTesselationShader.h"
+#include "vislib/graphics/GLSLTesselationShader.h"
 
 #include "vislib/Array.h"
-#include "vislib/graphics/gl/glverify.h"
+#include "vislib/graphics/glverify.h"
 #include "vislib/memutils.h"
 #include "vislib/String.h"
 #include "vislib/sys/sysfunctions.h"

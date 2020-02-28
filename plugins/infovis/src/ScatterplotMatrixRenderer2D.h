@@ -7,7 +7,7 @@
 #include "mmcore/param/ParamSlot.h"
 #include "mmcore/utility/SDFFont.h"
 #include "mmcore/utility/SSBOBufferArray.h"
-#include "mmcore/view/CallGetTransferFunction.h"
+#include "mmcore/view/CallGetTransferFunction_gl.h"
 #include "mmcore/view/CallRender2D.h"
 #include "mmcore/view/MouseFlags.h"
 #include "mmcore/view/Renderer2DModule.h"
@@ -228,7 +228,7 @@ private:
 
     stdplugin::datatools::table::TableDataCall* floatTable;
 
-    core::view::CallGetTransferFunction* transferFunction;
+    core::view::CallGetTransferFunction_gl* transferFunction;
 
     core::FlagCallRead_GL* readFlags;
 

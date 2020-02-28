@@ -15,8 +15,8 @@
 #include "mmcore/view/CallRender3D_2.h"
 #include "mmcore/view/Renderer3DModule_2.h"
 
-#include "vislib/graphics/gl/GLSLComputeShader.h"
-#include "vislib/graphics/gl/GLSLShader.h"
+#include "vislib/graphics/GLSLComputeShader.h"
+#include "vislib/graphics/GLSLShader.h"
 
 namespace megamol {
 namespace stdplugin {

@@ -12,9 +12,9 @@
 #include <sstream>
 #include <iomanip>
 
-#include "vislib/graphics/gl/IncludeAllGL.h"
+#include "vislib/graphics/IncludeAllGL.h"
 #include "vislib/net/SocketException.h"
-#include "vislib/graphics/gl/Verdana.inc"
+#include "vislib/graphics/Verdana.inc"
 
 #include "mmcore/param/FilePathParam.h"
 #include "mmcore/param/IntParam.h"

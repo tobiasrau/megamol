@@ -3,7 +3,7 @@
 #include "DrawToScreen.h"
 
 #include "mmcore/CoreInstance.h"
-#include "vislib/graphics/gl/ShaderSource.h"
+#include "vislib/graphics/ShaderSource.h"
 
 #include "compositing/CompositingCalls.h"
 
@@ -88,11 +88,8 @@ bool megamol::compositing::DrawToScreen::Render(core::view::CallRender3D_2& call
     auto input_texture = ct->getData();
     if (input_texture == nullptr) return false;
 
-    if (call.FrameBufferObject() != nullptr) {
-        glBindFramebuffer(GL_FRAMEBUFFER, call.FrameBufferObject()->GetID());
-    } else {
-        glBindFramebuffer(GL_FRAMEBUFFER, 0);
-    }
+    glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
 
     glEnable(GL_BLEND);
     glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);

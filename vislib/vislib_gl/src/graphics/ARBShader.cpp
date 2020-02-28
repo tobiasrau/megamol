@@ -8,9 +8,9 @@
 #include <Windows.h>
 #endif /* _WIN32 */
 
-#include "vislib/graphics/gl/ARBShader.h"
+#include "vislib/graphics/ARBShader.h"
 
-#include "vislib/graphics/gl/glverify.h"
+#include "vislib/graphics/glverify.h"
 #include "vislib/IllegalParamException.h"
 #include "vislib/IllegalStateException.h"
 #include "vislib/sys/sysfunctions.h"

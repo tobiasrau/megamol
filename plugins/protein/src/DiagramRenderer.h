@@ -16,9 +16,9 @@
 #include "mmcore/CallerSlot.h"
 #include "mmcore/view/Renderer2DModule.h"
 #include "protein_calls/DiagramCall.h"
-#include "vislib/graphics/gl/GLSLShader.h"
-#include "vislib/graphics/gl/OutlineFont.h"
-#include "vislib/graphics/gl/OpenGLTexture2D.h"
+#include "vislib/graphics/GLSLShader.h"
+#include "vislib/graphics/OutlineFont.h"
+#include "vislib/graphics/OpenGLTexture2D.h"
 #include "protein_calls/IntSelectionCall.h"
 
 namespace megamol {

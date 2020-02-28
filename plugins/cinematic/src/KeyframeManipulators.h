@@ -13,7 +13,6 @@
 #include "mmcore/param/EnumParam.h"
 #include "mmcore/param/ButtonParam.h"
 
-#include "vislib/graphics/gl/IncludeAllGL.h"
 #include "vislib/math/Cuboid.h"
 #include "vislib/sys/Log.h"
 

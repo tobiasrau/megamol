@@ -8,7 +8,7 @@
 #pragma once
 
 #include "AbstractQuartzRenderer.h"
-#include "vislib/graphics/gl/GLSLShader.h"
+#include "vislib/graphics/GLSLShader.h"
 
 
 namespace megamol {

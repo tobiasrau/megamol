@@ -7,7 +7,7 @@
 
 #include "stdafx.h"
 #include "mmcore/utility/KHR.h"
-#include "vislib/graphics/gl/IncludeAllGL.h"
+#include "vislib/graphics/IncludeAllGL.h"
 #include "vislib/sys/Log.h"
 
 

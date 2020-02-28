@@ -12,7 +12,7 @@
 #include "mmcore/Call.h"
 #include "mmcore/CallerSlot.h"
 #include "mmcore/param/ParamSlot.h"
-#include "vislib/graphics/gl/GLSLShader.h"
+#include "vislib/graphics/GLSLShader.h"
 #include "vislib/Array.h"
 #include "mmcore/moldyn/MultiParticleDataCall.h"
 #include "protein_calls/MolecularDataCall.h"

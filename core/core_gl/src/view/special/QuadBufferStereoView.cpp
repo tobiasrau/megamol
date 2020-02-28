@@ -9,6 +9,7 @@
 #include "mmcore/view/special/QuadBufferStereoView.h"
 #include "mmcore/view/CallRenderView.h"
 #include "vislib/sys/Log.h"
+#include "vislib/graphics/IncludeAllGL.h"
 
 using namespace megamol::core;
 

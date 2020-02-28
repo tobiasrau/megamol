@@ -12,7 +12,7 @@
 #endif /* (defined(_MSC_VER) && (_MSC_VER > 1000)) */
 
 #include "mmcore/view/AbstractRenderOutput.h"
-#include "vislib/graphics/gl/FramebufferObject.h"
+#include "vislib/graphics/FramebufferObject.h"
 
 
 namespace megamol {

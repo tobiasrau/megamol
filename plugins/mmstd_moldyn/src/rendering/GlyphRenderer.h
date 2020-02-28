@@ -16,8 +16,8 @@
 #include "mmcore/param/ParamSlot.h"
 #include "mmcore/view/AbstractCallRender3D.h"
 #include "mmcore/view/Renderer3DModule_2.h"
-#include "vislib/graphics/gl/GLSLShader.h"
-#include "vislib/graphics/gl/IncludeAllGL.h"
+#include "vislib/graphics/GLSLShader.h"
+#include "vislib/graphics/IncludeAllGL.h"
 #include "mmcore/utility/SSBOBufferArray.h"
 #include "mmcore/moldyn/EllipsoidalDataCall.h"
 

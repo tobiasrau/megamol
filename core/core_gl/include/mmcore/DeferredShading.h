@@ -8,7 +8,7 @@
 #ifndef Deferred_SHADING_H_INCLUDED
 #define Deferred_SHADING_H_INCLUDED
 
-#include "vislib/graphics/gl/GLSLShader.h"
+#include "vislib/graphics/GLSLShader.h"
 #include "vislib/math/Matrix.h"
 
 #include "mmcore/param/ParamSlot.h"

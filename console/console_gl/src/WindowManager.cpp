@@ -12,7 +12,7 @@
 #include <cassert>
 #include "mmcore/api/MegaMolCore.h"
 #include "utility/ConfigHelper.h"
-#include "vislib/graphics/gl/IncludeAllGL.h"
+#include "vislib/graphics/IncludeAllGL.h"
 #include "vislib/sys/Log.h"
 #include "JobManager.h"
 #include "utility/HotFixFileName.h"

@@ -13,8 +13,8 @@
 
 #include "mmcore/param/ParamSlot.h"
 #include "mmcore/view/special/AbstractStereoView.h"
-#include "vislib/graphics/gl/FramebufferObject.h"
-#include "vislib/graphics/gl/GLSLShader.h"
+#include "vislib/graphics/FramebufferObject.h"
+#include "vislib/graphics/GLSLShader.h"
 
 
 namespace megamol {

@@ -12,10 +12,10 @@
 #endif /* (defined(_MSC_VER) && (_MSC_VER > 1000)) */
 
 #include "mmcore/view/Renderer3DModule_2.h"
-#include "vislib/graphics/gl/GLSLShader.h"
-#include "vislib/graphics/gl/GLSLTesselationShader.h"
-#include "vislib/graphics/gl/ShaderSource.h"
-#include "vislib/graphics/gl/IncludeAllGL.h"
+#include "vislib/graphics/GLSLShader.h"
+#include "vislib/graphics/GLSLTesselationShader.h"
+#include "vislib/graphics/ShaderSource.h"
+#include "vislib/graphics/IncludeAllGL.h"
 #include "mmcore/Call.h"
 #include "mmcore/CallerSlot.h"
 #include "mmcore/param/ParamSlot.h"

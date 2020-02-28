@@ -19,8 +19,8 @@
 #include <utility>
 #include <vector>
 
-#include "vislib/graphics/gl/GLSLComputeShader.h"
-#include "vislib/graphics/gl/GLSLShader.h"
+#include "vislib/graphics/GLSLComputeShader.h"
+#include "vislib/graphics/GLSLShader.h"
 
 #include "mmcore/Call.h"
 #include "mmcore/CallerSlot.h"

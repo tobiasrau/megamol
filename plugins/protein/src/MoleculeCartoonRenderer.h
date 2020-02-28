@@ -20,9 +20,9 @@
 #include "mmcore/view/Renderer3DModuleDS.h"
 #include "mmcore/view/CallRender3D.h"
 #include "mmcore/view/CallRenderDeferred3D.h"
-#include "vislib/graphics/gl/GLSLShader.h"
-#include "vislib/graphics/gl/GLSLGeometryShader.h"
-#include "vislib/graphics/gl/SimpleFont.h"
+#include "vislib/graphics/GLSLShader.h"
+#include "vislib/graphics/GLSLGeometryShader.h"
+#include "vislib/graphics/SimpleFont.h"
 #include "vislib/Array.h"
 #include <vector>
 #include "mmcore/CallerSlot.h"

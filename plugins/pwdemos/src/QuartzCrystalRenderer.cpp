@@ -9,7 +9,7 @@
 #include "QuartzCrystalDataCall.h"
 #include "mmcore/param/IntParam.h"
 #include "mmcore/view/CallRender3D_2.h"
-#include "vislib/graphics/gl/IncludeAllGL.h"
+#include "vislib/graphics/IncludeAllGL.h"
 #include "mmcore/factories/CallAutoDescription.h"
 #include "vislib/sys/Log.h"
 

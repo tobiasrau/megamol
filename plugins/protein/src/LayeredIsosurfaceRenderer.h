@@ -18,8 +18,8 @@
 #include "mmcore/CallerSlot.h"
 #include "mmcore/view/Renderer3DModule.h"
 #include "mmcore/view/CallRender3D.h"
-#include "vislib/graphics/gl/GLSLShader.h"
-#include "vislib/graphics/gl/FramebufferObject.h"
+#include "vislib/graphics/GLSLShader.h"
+#include "vislib/graphics/FramebufferObject.h"
 
 #define CHECK_FOR_OGL_ERROR() do { GLenum err; err = glGetError();if (err != GL_NO_ERROR) { fprintf(stderr, "%s(%d) glError: %s\n", __FILE__, __LINE__, gluErrorString(err)); } } while(0)
 

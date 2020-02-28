@@ -16,7 +16,7 @@
 #include "vislib/StringTokeniser.h"
 
 #include "vislib/sys/Log.h"
-#include "vislib/graphics/gl/ShaderSource.h"
+#include "vislib/graphics/ShaderSource.h"
 #include "mmcore/CoreInstance.h"
 
 using namespace megamol::core;

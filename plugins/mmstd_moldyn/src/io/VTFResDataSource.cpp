@@ -24,7 +24,6 @@
 #include "vislib/sys/sysfunctions.h"
 #include "vislib/sys/SystemInformation.h"
 #include "vislib/Trace.h"
-#include "vislib/sys/ConsoleProgressBar.h"
 #include "vislib/math/ShallowVector.h"
 #include "vislib/sys/DirectoryIterator.h"
 #include <cstdint>

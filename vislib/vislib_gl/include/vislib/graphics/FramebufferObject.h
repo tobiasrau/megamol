@@ -15,7 +15,7 @@
 #endif /* defined(_WIN32) && defined(_MANAGED) */
 
 
-#include "vislib/graphics/gl/ExtensionsDependent.h"
+#include "vislib/graphics/ExtensionsDependent.h"
 #include "vislib/types.h"
 
 

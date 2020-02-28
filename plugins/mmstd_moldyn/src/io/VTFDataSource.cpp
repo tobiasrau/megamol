@@ -24,7 +24,6 @@
 #include "vislib/sys/sysfunctions.h"
 #include "vislib/sys/SystemInformation.h"
 #include "vislib/Trace.h"
-#include "vislib/sys/ConsoleProgressBar.h"
 #include "vislib/math/ShallowVector.h"
 #include <cstdint>
 #include "vislib/sys/BufferedFile.h"
@@ -571,9 +570,6 @@ bool io::VTFDataSource::parseHeaderAndFrameIndices(const vislib::TString& filena
 
 	this->types.Clear();
 	
-    vislib::sys::ConsoleProgressBar cpb;
-    cpb.Start("Progress Loading VTF File", static_cast<vislib::sys::ConsoleProgressBar::Size>(this->file->GetSize()));
-
     // read the header
     while (!this->file->IsEOF()) {
 		vislib::sys::File::FileSize currentFileCursor = this->file->Tell();
@@ -612,7 +608,6 @@ bool io::VTFDataSource::parseHeaderAndFrameIndices(const vislib::TString& filena
 		if(haveBoundingBox && haveAtomType) {
 			if (shreds[0].Compare("time", false) && shreds[1].Compare("index", false)) {
 				this->frameIdx.Append(this->file->Tell());
-				cpb.Set(static_cast<vislib::sys::ConsoleProgressBar::Size>(this->file->Tell()));
 			}
 		}
 

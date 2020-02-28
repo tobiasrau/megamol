@@ -22,7 +22,7 @@
 
 #define _USE_MATH_DEFINES 1
 
-#include "vislib/graphics/gl/IncludeAllGL.h"
+#include "vislib/graphics/IncludeAllGL.h"
 
 #include <math.h>
 #include <assert.h>

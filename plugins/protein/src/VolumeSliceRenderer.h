@@ -15,7 +15,7 @@
 #include "mmcore/CallerSlot.h"
 #include "mmcore/view/Renderer2DModule.h"
 #include "VolumeSliceCall.h"
-#include "vislib/graphics/gl/GLSLShader.h"
+#include "vislib/graphics/GLSLShader.h"
 
 namespace megamol {
 namespace protein {

@@ -6,7 +6,7 @@
  */
 
 #include "stdafx.h"
-#include "vislib/graphics/gl/IncludeAllGL.h"
+#include "vislib/graphics/IncludeAllGL.h"
 #include "QuartzRenderer.h"
 #include "mmcore/CoreInstance.h"
 #include "mmcore/param/BoolParam.h"
@@ -14,8 +14,8 @@
 #include "mmcore/view/CallClipPlane.h"
 #include "vislib/sys/Log.h"
 #include "vislib/memutils.h"
-#include "vislib/graphics/gl/ShaderSource.h"
-#include "vislib/graphics/gl/glfunctions.h"
+#include "vislib/graphics/ShaderSource.h"
+#include "vislib/graphics/glfunctions.h"
 #include "vislib/graphics/graphicsfunctions.h"
 #include <cfloat>
 

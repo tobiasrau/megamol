@@ -16,7 +16,7 @@
 #endif /* defined(_WIN32) && defined(_MANAGED) */
 
 
-#include "vislib/graphics/gl/AbstractOpenGLTexture.h"
+#include "vislib/graphics/AbstractOpenGLTexture.h"
 
 
 namespace vislib {

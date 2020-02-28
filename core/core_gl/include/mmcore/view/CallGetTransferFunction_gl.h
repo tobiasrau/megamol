@@ -11,8 +11,8 @@
 #include "mmcore/api/MegaMolCore.h"
 #include "mmcore/factories/CallAutoDescription.h"
 
-#include "vislib/graphics/gl/IncludeAllGL.h"
-#include "vislib/graphics/gl/GLSLShader.h"
+#include "vislib/graphics/IncludeAllGL.h"
+#include "vislib/graphics/GLSLShader.h"
 #include <array>
 
 namespace megamol {

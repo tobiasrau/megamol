@@ -14,7 +14,7 @@
 #include "mmcore/view/CallRender3D_2.h"
 #include "mmcore/param/ParamSlot.h"
 #include "mmcore/view/RendererModule.h"
-#include "vislib/graphics/gl/GLSLShader.h"
+#include "vislib/graphics/GLSLShader.h"
 
 namespace megamol {
 namespace core {

@@ -13,10 +13,10 @@
 #    pragma once
 #endif /* (defined(_MSC_VER) && (_MSC_VER > 1000)) */
 
-#include "FlagStorage.h"
+#include "mmcore/FlagStorage.h"
 #include "mmcore/CallGeneric.h"
 #include "mmcore/factories/CallAutoDescription.h"
-#include "vislib/graphics/gl/IncludeAllGL.h"
+#include "vislib/graphics/IncludeAllGL.h"
 #include "glowl/BufferObject.hpp"
 #include "mmcore/FlagStorage_GL.h"
 

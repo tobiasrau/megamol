@@ -318,12 +318,12 @@ bool GlyphRenderer::Render(core::view::CallRender3D_2& call) {
     glEnable(GL_DEPTH_TEST);
     glDepthFunc(GL_LEQUAL);
 
-    auto viewport = call.GetViewport();
+    auto viewport = cam.resolution_gate();
     glm::vec4 viewportStuff;
     viewportStuff[0] = 0.0f;
     viewportStuff[1] = 0.0f;
-    viewportStuff[2] = static_cast<float>(viewport.Width());
-    viewportStuff[3] = static_cast<float>(viewport.Height());
+    viewportStuff[2] = static_cast<float>(viewport.width());
+    viewportStuff[3] = static_cast<float>(viewport.height());
     if (viewportStuff[2] < 1.0f) viewportStuff[2] = 1.0f;
     if (viewportStuff[3] < 1.0f) viewportStuff[3] = 1.0f;
     viewportStuff[2] = 2.0f / viewportStuff[2];

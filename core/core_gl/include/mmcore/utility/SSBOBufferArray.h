@@ -13,8 +13,8 @@
 
 
 #include "mmcore/api/MegaMolCore.std.h"
-#include "vislib/graphics/gl/IncludeAllGL.h"
-#include "vislib/graphics/gl/GLSLShader.h"
+#include "vislib/graphics/IncludeAllGL.h"
+#include "vislib/graphics/GLSLShader.h"
 
 #include <vector>
 #include <algorithm>

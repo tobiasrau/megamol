@@ -20,7 +20,6 @@
 #include "MarchingCubeTables.h"
 #include "TetraVoxelizer.h"
 #include "vislib/sys/sysfunctions.h"
-#include "vislib/sys/ConsoleProgressBar.h"
 #include "vislib/sys/SystemInformation.h"
 #include <climits>
 #include <cfloat>
@@ -279,8 +278,8 @@ DWORD VoluMetricJob::Run(void *userData) {
         bool storeVolume = //storeMesh; // debug for now ...
             (this->outVolDataSlot.GetStatus() == megamol::core::AbstractSlot::STATUS_CONNECTED);
 
-        vislib::sys::ConsoleProgressBar pb;
-        pb.Start("Computing Frame", divX * divY * divZ);
+        //vislib::sys::ConsoleProgressBar pb;
+        //pb.Start("Computing Frame", divX * divY * divZ);
 
         vislib::sys::Log::DefaultLog.WriteInfo("Grid: %ux%ux%u", divX, divY, divZ);
         for (int x = 0; x < divX; x++) {
@@ -357,8 +356,8 @@ DWORD VoluMetricJob::Run(void *userData) {
                         break;
             }
             if (lastCount != pool.CountUserWorkItems()) {
-                pb.Set(static_cast<vislib::sys::ConsoleProgressBar::Size>(
-                    divX * divY * divZ - pool.CountUserWorkItems()));
+                //pb.Set(static_cast<vislib::sys::ConsoleProgressBar::Size>(
+                //    divX * divY * divZ - pool.CountUserWorkItems()));
                 generateStatistics(uniqueIDs, countPerID, surfPerID, volPerID, voidVolPerID);
                 if (storeMesh)
                     copyMeshesToBackbuffer(uniqueIDs);
@@ -373,7 +372,7 @@ DWORD VoluMetricJob::Run(void *userData) {
             copyMeshesToBackbuffer(uniqueIDs);
         if (storeVolume)
             copyVolumesToBackBuffer();
-        pb.Stop();
+        //pb.Stop();
         Log::DefaultLog.WriteInfo("Done marching.");
         pool.Terminate(true);
 

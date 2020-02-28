@@ -9,9 +9,9 @@
 #include "mmcore/CoreInstance.h"
 #include "mmcore/param/BoolParam.h"
 #include "vislib/assert.h"
-#include "vislib/graphics/gl/GLSLShader.h"
+#include "vislib/graphics/GLSLShader.h"
 #include "vislib/graphics/graphicsfunctions.h"
-#include "vislib/graphics/gl/ShaderSource.h"
+#include "vislib/graphics/ShaderSource.h"
 #include "vislib/sys/Log.h"
 #include "vislib/math/Vector.h"
 

@@ -12,7 +12,7 @@
 #include "mmcore/view/Renderer2DModule.h"
 #include "mmstd_datatools/table/TableDataCall.h"
 
-#include "vislib/graphics/gl/FramebufferObject.h"
+#include "vislib/graphics/FramebufferObject.h"
 
 #include "Renderer2D.h"
 

@@ -25,7 +25,7 @@
 
 #include "vislib/Serialisable.h"
 #include "vislib/Trace.h"
-#include "vislib/graphics/gl/FramebufferObject.h"
+#include "vislib/graphics/FramebufferObject.h"
 #include "vislib/math/Point.h"
 #include "vislib/math/Rectangle.h"
 #include "vislib/sys/FastFile.h"

@@ -13,16 +13,16 @@
 #include <memory>
 
 #include "vislib/Exception.h"
-#include "vislib/graphics/gl/GLSLComputeShader.h"
-#include "vislib/graphics/gl/GLSLShader.h"
-#include "vislib/graphics/gl/ShaderSource.h"
+#include "vislib/graphics/GLSLComputeShader.h"
+#include "vislib/graphics/GLSLShader.h"
+#include "vislib/graphics/ShaderSource.h"
 #include "vislib/sys/Log.h"
 
 #include "mmcore/Call.h"
 #include "mmcore/CoreInstance.h"
 #include "mmcore/misc/VolumetricDataCall.h"
 #include "mmcore/param/FloatParam.h"
-#include "mmcore/view/CallGetTransferFunction.h"
+#include "mmcore/view/CallGetTransferFunction_gl.h"
 #include "mmcore/view/CallRender3D_2.h"
 #include "mmcore/view/Camera_2.h"
 #include "mmcore/view/Renderer3DModule_2.h"
@@ -42,7 +42,7 @@ RaycastVolumeRenderer::RaycastVolumeRenderer()
     this->m_volumetricData_callerSlot.SetCompatibleCall<core::misc::VolumetricDataCallDescription>();
     this->MakeSlotAvailable(&this->m_volumetricData_callerSlot);
 
-    this->m_transferFunction_callerSlot.SetCompatibleCall<core::view::CallGetTransferFunctionDescription>();
+    this->m_transferFunction_callerSlot.SetCompatibleCall<core::view::CallGetTransferFunction_glDescription>();
     this->MakeSlotAvailable(&this->m_transferFunction_callerSlot);
 
     this->m_ray_step_ratio_param << new core::param::FloatParam(1.0f);
@@ -136,7 +136,7 @@ bool RaycastVolumeRenderer::GetExtents(megamol::core::view::CallRender3D_2& cr) 
 bool RaycastVolumeRenderer::Render(megamol::core::view::CallRender3D_2& cr) {
     if (!updateVolumeData()) return false;
 
-    auto ct = this->m_transferFunction_callerSlot.CallAs<core::view::CallGetTransferFunction>();
+    auto ct = this->m_transferFunction_callerSlot.CallAs<core::view::CallGetTransferFunction_gl>();
     if (ct == nullptr || !(*ct)()) return false;
 
     // get camera

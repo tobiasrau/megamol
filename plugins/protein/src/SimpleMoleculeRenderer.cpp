@@ -9,7 +9,7 @@
 
 #define _USE_MATH_DEFINES 1
 
-#include "vislib/graphics/gl/IncludeAllGL.h"
+#include "vislib/graphics/IncludeAllGL.h"
 
 #include "SimpleMoleculeRenderer.h"
 #include "mmcore/CoreInstance.h"
@@ -25,8 +25,8 @@
 #include "vislib/math/Quaternion.h"
 #include "vislib/OutOfRangeException.h"
 #include "vislib/Trace.h"
-#include "vislib/graphics/gl/ShaderSource.h"
-#include "vislib/graphics/gl/AbstractOpenGLShader.h"
+#include "vislib/graphics/ShaderSource.h"
+#include "vislib/graphics/AbstractOpenGLShader.h"
 #include "vislib/sys/ASCIIFileBuffer.h"
 #include "vislib/StringConverter.h"
 #include "vislib/math/Matrix.h"

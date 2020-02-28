@@ -5,7 +5,7 @@
  * Alle Rechte vorbehalten.
  */
 
-#include "vislib/graphics/gl/ShaderSource.h"
+#include "vislib/graphics/ShaderSource.h"
 #include <cstdarg>
 #include "vislib/AlreadyExistsException.h"
 #include "vislib/memutils.h"

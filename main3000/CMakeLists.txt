@@ -16,6 +16,7 @@ if(BUILD_MAIN3000)
   if(USE_OPENGL)
     file(GLOB_RECURSE header_files RELATIVE "${CMAKE_CURRENT_SOURCE_DIR}" "${PROJECT_NAME}_gl/src/*.h")
     file(GLOB_RECURSE source_files RELATIVE "${CMAKE_CURRENT_SOURCE_DIR}" "${PROJECT_NAME}_gl/src/*.cpp")
+    set(build_interface_gl_dirs "${PROJECT_NAME}_gl/include" "${PROJECT_NAME}_gl/src")
   else()
     file(GLOB_RECURSE header_files RELATIVE "${CMAKE_CURRENT_SOURCE_DIR}" "src/*.h")
     file(GLOB_RECURSE source_files RELATIVE "${CMAKE_CURRENT_SOURCE_DIR}" "src/*.cpp")
@@ -26,7 +27,7 @@ if(BUILD_MAIN3000)
   set_target_properties(${PROJECT_NAME}
     PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}
     OUTPUT_NAME ${PROJECT_NAME})
-  target_include_directories(${PROJECT_NAME} PRIVATE "src" "include")
+  target_include_directories(${PROJECT_NAME} PRIVATE "src" "include" ${build_interface_gl_dirs})
   target_link_libraries(${PROJECT_NAME} PRIVATE core render_api)
 
   if(WIN32)

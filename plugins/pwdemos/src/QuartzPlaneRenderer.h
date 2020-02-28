@@ -11,7 +11,7 @@
 #include "mmcore/param/ParamSlot.h"
 #include "mmcore/view/Renderer2DModule.h"
 #include "mmcore/view/CallRender2D.h"
-#include "vislib/graphics/gl/GLSLShader.h"
+#include "vislib/graphics/GLSLShader.h"
 
 
 namespace megamol {

@@ -26,7 +26,7 @@
 #endif /* (defined(_MSC_VER) && (_MSC_VER > 1000)) */
 #include "vislib/String.h"
 #include "vislib/StringTokeniser.h"
-#include "vislib/graphics/gl/IncludeAllGL.h"
+#include "vislib/graphics/IncludeAllGL.h"
 
 namespace vislib {
 namespace graphics {

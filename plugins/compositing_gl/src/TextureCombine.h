@@ -14,7 +14,7 @@
 #include "mmcore/CalleeSlot.h"
 #include "mmcore/CallerSlot.h"
 #include "mmcore/param/ParamSlot.h"
-#include "vislib/graphics/gl/GLSLComputeShader.h"
+#include "vislib/graphics/GLSLComputeShader.h"
 
 #include "glowl/Texture2D.hpp"
 

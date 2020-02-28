@@ -10,6 +10,7 @@
 
 #include "mmcore/param/TransferFunctionParam.h"
 #include "mmcore/view/TransferFunction.h"
+#include "vislib/graphics/IncludeAllGL.h"
 
 #include "vislib/sys/Log.h"
 

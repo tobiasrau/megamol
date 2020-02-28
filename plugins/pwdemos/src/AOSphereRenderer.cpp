@@ -9,7 +9,7 @@
 
 #define _USE_MATH_DEFINES 1
 
-#include "vislib/graphics/gl/IncludeAllGL.h"
+#include "vislib/graphics/IncludeAllGL.h"
 #include <GL/glu.h>
 
 #include "AOSphereRenderer.h"
@@ -24,7 +24,7 @@
 #include "mmcore/param/EnumParam.h"
 #include "mmcore/param/IntParam.h"
 #include "mmcore/param/BoolParam.h"
-#include "vislib/graphics/gl/FramebufferObject.h"
+#include "vislib/graphics/FramebufferObject.h"
 #include <cmath>
 #include <iostream>
 #include <omp.h>

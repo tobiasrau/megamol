@@ -16,7 +16,7 @@
 #include "mmcore/CalleeSlot.h"
 #include "mmcore/CallerSlot.h"
 #include "mmcore/param/ParamSlot.h"
-#include "MultiParticleDataCall.h"
+#include "mmcore/moldyn/MultiParticleDataCall.h"
 #include "vislib/RawStorage.h"
 
 

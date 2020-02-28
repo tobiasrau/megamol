@@ -6,7 +6,7 @@
  */
 
 #include "stdafx.h"
-#include "vislib/graphics/gl/IncludeAllGL.h"
+#include "vislib/graphics/IncludeAllGL.h"
 #include "mmcore/view/View2D.h"
 #include "mmcore/CoreInstance.h"
 #include "mmcore/view/CallRenderView.h"
@@ -322,7 +322,6 @@ bool view::View2D::OnRenderView(Call& call) {
     float overTile[6];
     view::CallRenderView *crv = dynamic_cast<view::CallRenderView *>(&call);
     if (crv == NULL) return false;
-
     this->incomingCall = crv;
     this->overrideViewport = overVP; // never set window viewport
     if (crv->IsViewportSet()) {

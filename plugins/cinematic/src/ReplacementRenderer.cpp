@@ -103,12 +103,21 @@ bool ReplacementRenderer::GetExtents(megamol::core::view::CallRender3D_2& call) 
 
 bool ReplacementRenderer::Render(megamol::core::view::CallRender3D_2& call) {
 
+    view::Camera_2 cam;
+    call.GetCamera(cam);
+    cam_type::snapshot_type snapshot;
+    cam_type::matrix_type viewTemp, projTemp;
+    cam.calc_matrices(snapshot, viewTemp, projTemp);
+    glm::mat4 proj = projTemp;
+    glm::mat4 view = viewTemp;
+    glm::mat4 mvp = proj * view;
+
     auto leftSlotParent = call.PeekCallerSlot()->Parent();
     std::shared_ptr<const view::AbstractView> viewptr =
         std::dynamic_pointer_cast<const view::AbstractView>(leftSlotParent);
     if (viewptr != nullptr) { // TODO move this behind the fbo magic?
-        auto vp = call.GetViewport();
-        glViewport(vp.Left(), vp.Bottom(), vp.Width(), vp.Height());
+        auto vp = cam.image_tile();
+        glViewport(vp.left(), vp.bottom(), vp.width(), vp.height());
         auto backCol = call.BackgroundColor();
         glClearColor(backCol.x, backCol.y, backCol.z, 0.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -156,18 +165,10 @@ bool ReplacementRenderer::Render(megamol::core::view::CallRender3D_2& call) {
 
     if (this->toggle) {
 
-        view::Camera_2 cam;
-        call.GetCamera(cam);
-        cam_type::snapshot_type snapshot;
-        cam_type::matrix_type viewTemp, projTemp;
-        cam.calc_matrices(snapshot, viewTemp, projTemp);
-        glm::mat4 proj = projTemp;
-        glm::mat4 view = viewTemp;
-        glm::mat4 mvp = proj * view;
 
-        auto viewport = call.GetViewport();
-        float vp_fw = static_cast<float>(viewport.Width());
-        float vp_fh = static_cast<float>(viewport.Height());
+        auto viewport = cam.resolution_gate();
+        float vp_fw = static_cast<float>(viewport.width());
+        float vp_fh = static_cast<float>(viewport.height());
 
         float alpha = alphaParam.Param<param::FloatParam>()->Value();
 

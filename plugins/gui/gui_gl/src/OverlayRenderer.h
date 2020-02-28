@@ -28,9 +28,9 @@
 #include "mmcore/view/CallRender3D_2.h"
 #include "mmcore/view/RendererModule.h"
 
-#include "vislib/graphics/gl/GLSLShader.h"
-#include "vislib/graphics/gl/IncludeAllGL.h"
-#include "vislib/graphics/gl/OpenGLTexture2D.h"
+#include "vislib/graphics/GLSLShader.h"
+#include "vislib/graphics/IncludeAllGL.h"
+#include "vislib/graphics/OpenGLTexture2D.h"
 #include "vislib/sys/File.h"
 #include "vislib/sys/Log.h"
 

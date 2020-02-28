@@ -5,9 +5,9 @@
  * Alle Rechte vorbehalten.
  */
 
-#include "vislib/graphics/gl/OutlineFont.h"
+#include "vislib/graphics/OutlineFont.h"
 #include <cfloat>
-#include "vislib/graphics/gl/IncludeAllGL.h"
+#include "vislib/graphics/IncludeAllGL.h"
 #include "vislib/CharTraits.h"
 #include "vislib/memutils.h"
 #include "vislib/UTF8Encoder.h"

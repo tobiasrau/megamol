@@ -15,11 +15,11 @@
 #include "mmcore/view/CallRenderDeferred3D.h"
 #include "mmcore/CoreInstance.h"
 
-#include "vislib/graphics/gl/ShaderSource.h"
+#include "vislib/graphics/ShaderSource.h"
 #include "vislib/sys/Log.h"
 
 #include "ToonRendererDeferred.h"
-#include "vislib/graphics/gl/IncludeAllGL.h"
+#include "vislib/graphics/IncludeAllGL.h"
 
 using namespace megamol::protein;
 

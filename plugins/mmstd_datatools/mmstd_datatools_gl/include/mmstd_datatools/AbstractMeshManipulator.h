@@ -8,7 +8,7 @@
 #pragma once
 
 #include "geometry_calls/CallTriMeshData.h"
-#include "AbstractManipulator.h"
+#include "mmstd_datatools/AbstractManipulator.h"
 
 namespace megamol {
 namespace stdplugin {

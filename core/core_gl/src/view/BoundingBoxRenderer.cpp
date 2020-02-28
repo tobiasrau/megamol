@@ -14,7 +14,7 @@
 #include "mmcore/param/IntParam.h"
 #include "mmcore/thecam/math/functions.h"
 
-#include "vislib/graphics/gl/ShaderSource.h"
+#include "vislib/graphics/ShaderSource.h"
 #include "vislib/sys/Log.h"
 
 #include "glm/glm.hpp"

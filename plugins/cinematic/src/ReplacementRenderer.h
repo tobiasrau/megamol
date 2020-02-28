@@ -20,7 +20,7 @@
 #include "mmcore/param/IntParam.h"
 #include "mmcore/param/ButtonParam.h"
 
-#include "vislib/graphics/gl/IncludeAllGL.h"
+#include "vislib/graphics/IncludeAllGL.h"
 #include "vislib/sys/Log.h"
 
 #include "CinematicUtils.h"

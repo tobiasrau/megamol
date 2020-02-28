@@ -8,7 +8,7 @@
 #include <Windows.h>
 #endif /* _WIN32 */
 
-#include "vislib/graphics/gl/glverify.h"
+#include "vislib/graphics/glverify.h"
 
 /*
  * This file is intentionally empty.

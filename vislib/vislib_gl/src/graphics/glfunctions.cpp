@@ -4,8 +4,8 @@
  * Copyright (C) 2007 by Universitaet Stuttgart (VIS). Alle Rechte vorbehalten.
  */
 
-#include "vislib/graphics/gl/glfunctions.h"
-#include "vislib/graphics/gl/IncludeAllGL.h"
+#include "vislib/graphics/glfunctions.h"
+#include "vislib/graphics/IncludeAllGL.h"
 
 #include <stdlib.h>
 

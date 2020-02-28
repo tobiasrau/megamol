@@ -14,8 +14,8 @@
 #endif /* defined(_WIN32) && defined(_MANAGED) */
 
 
-#include "vislib/graphics/gl/AbstractOpenGLShader.h"
-#include "vislib/graphics/gl/ExtensionsDependent.h"
+#include "vislib/graphics/AbstractOpenGLShader.h"
+#include "vislib/graphics/ExtensionsDependent.h"
 
 
 namespace vislib {

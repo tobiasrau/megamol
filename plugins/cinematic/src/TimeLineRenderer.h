@@ -25,7 +25,7 @@
 #include "mmcore/param/EnumParam.h"
 
 #include "vislib/String.h"
-#include "vislib/graphics/gl/OpenGLTexture2D.h"
+#include "vislib/graphics/OpenGLTexture2D.h"
 #include "vislib/graphics/BitmapImage.h"
 #include "vislib/graphics/Cursor2D.h"
 #include "vislib/graphics/InputModifiers.h"

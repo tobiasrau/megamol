@@ -90,9 +90,9 @@ void view::HeadView::Render(const mmcRenderViewContext& context) {
             last_view_call = std::make_unique<CallRenderView>(*view);
             *view = *this->override_view_call;
         }
-        else {
-            const_cast<vislib::math::Rectangle<int>&>(view->GetViewport()).Set(0, 0, this->width, this->height);
-        }
+        //else {
+        //    const_cast<vislib::math::Rectangle<int>&>(view->GetViewport()).Set(0, 0, this->width, this->height);
+        //}
 
         view->SetInstanceTime(context.InstanceTime);
         view->SetTime(static_cast<float>(context.Time));

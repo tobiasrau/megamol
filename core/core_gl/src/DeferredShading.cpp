@@ -2,7 +2,7 @@
 
 #include "mmcore/CoreInstance.h"
 #include "mmcore/param/FilePathParam.h"
-#include "vislib/graphics/gl/ShaderSource.h"
+#include "vislib/graphics/ShaderSource.h"
 
 megamol::core::DeferredShading::DeferredShading() 
     : Renderer3DModule_2()

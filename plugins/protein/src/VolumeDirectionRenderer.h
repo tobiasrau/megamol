@@ -11,15 +11,15 @@
 #pragma once
 #endif /* (defined(_MSC_VER) && (_MSC_VER > 1000)) */
 
-#include "vislib/graphics/gl/IncludeAllGL.h"
+#include "vislib/graphics/IncludeAllGL.h"
 #include "protein_calls/VTIDataCall.h"
 #include "mmcore/param/ParamSlot.h"
 #include "mmcore/CallerSlot.h"
 #include "mmcore/view/Renderer3DModuleDS.h"
 #include "mmcore/view/AbstractCallRender3D.h"
 
-#include "vislib/graphics/gl/GLSLShader.h"
-#include "vislib/graphics/gl/GLSLGeometryShader.h"
+#include "vislib/graphics/GLSLShader.h"
+#include "vislib/graphics/GLSLGeometryShader.h"
 
 
 namespace megamol {

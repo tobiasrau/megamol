@@ -19,7 +19,7 @@
 #include "mmcore/CallerSlot.h"
 #include "mmcore/view/Renderer3DModule.h"
 #include "mmcore/view/CallRender3D.h"
-#include "vislib/graphics/gl/GLSLShader.h"
+#include "vislib/graphics/GLSLShader.h"
 
 namespace megamol {
 namespace protein {

@@ -19,8 +19,7 @@
 #include "vislib/RawStorage.h"
 #include "vislib/math/Cuboid.h"
 #include "glowl/BufferObject.hpp"
-#include "vislib/graphics/gl/IncludeAllGL.h"
-#include "FlagStorage.h"
+#include "vislib/graphics/IncludeAllGL.h"
 #include "FlagCollection_GL.h"
 
 namespace megamol {

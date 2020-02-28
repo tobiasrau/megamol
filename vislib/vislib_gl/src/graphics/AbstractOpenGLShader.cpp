@@ -8,10 +8,10 @@
 #include <Windows.h>
 #endif /* _WIN32 */
 
-#include "vislib/graphics/gl/AbstractOpenGLShader.h"
+#include "vislib/graphics/AbstractOpenGLShader.h"
 
 #include <climits>
-#include "vislib/graphics/gl/IncludeAllGL.h"
+#include "vislib/graphics/IncludeAllGL.h"
 
 
 #include "vislib/assert.h"

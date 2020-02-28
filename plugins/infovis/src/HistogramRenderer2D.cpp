@@ -27,7 +27,7 @@ HistogramRenderer2D::HistogramRenderer2D()
     this->tableDataCallerSlot.SetCompatibleCall<table::TableDataCallDescription>();
     this->MakeSlotAvailable(&this->tableDataCallerSlot);
 
-    this->transferFunctionCallerSlot.SetCompatibleCall<core::view::CallGetTransferFunctionDescription>();
+    this->transferFunctionCallerSlot.SetCompatibleCall<core::view::CallGetTransferFunction_glDescription>();
     this->MakeSlotAvailable(&this->transferFunctionCallerSlot);
 
     this->flagStorageCallerSlot.SetCompatibleCall<core::FlagCallDescription>();
@@ -97,7 +97,7 @@ bool HistogramRenderer2D::Render(core::view::CallRender2D& call) {
         return false;
     }
 
-    auto tfCall = this->transferFunctionCallerSlot.CallAs<core::view::CallGetTransferFunction>();
+    auto tfCall = this->transferFunctionCallerSlot.CallAs<core::view::CallGetTransferFunction_gl>();
     if (tfCall == nullptr) {
         return false;
     }
@@ -193,7 +193,7 @@ bool HistogramRenderer2D::handleCall(core::view::CallRender2D& call) {
     if (floatTableCall == nullptr) {
         return false;
     }
-    auto tfCall = this->transferFunctionCallerSlot.CallAs<core::view::CallGetTransferFunction>();
+    auto tfCall = this->transferFunctionCallerSlot.CallAs<core::view::CallGetTransferFunction_gl>();
     if (tfCall == nullptr) {
         vislib::sys::Log::DefaultLog.WriteMsg(
             vislib::sys::Log::LEVEL_ERROR, "HistogramRenderer2D requires a transfer function!");

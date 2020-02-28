@@ -8,7 +8,7 @@
 #include <Windows.h>
 #endif /* _WIN32 */
 
-#include "vislib/graphics/gl/OpenGLException.h"
+#include "vislib/graphics/OpenGLException.h"
 
 
 #include <GL/glu.h>

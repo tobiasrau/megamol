@@ -15,10 +15,10 @@
 #include "vislib/RawStorage.h"
 #include "vislib/types.h"
 
-#include "vislib/graphics/gl/IncludeAllGL.h"
+#include "vislib/graphics/IncludeAllGL.h"
 #include <GL/glu.h>
 
-#include "vislib/graphics/gl/GLSLComputeShader.h"
+#include "vislib/graphics/GLSLComputeShader.h"
 
 
 namespace megamol {

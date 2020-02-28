@@ -19,10 +19,10 @@
 #include "mmcore/misc/PngBitmapCodec.h"
 #include "mmcore/utility/ResourceWrapper.h"
 
-#include "vislib/graphics/gl/IncludeAllGL.h"
-#include "vislib/graphics/gl/ShaderSource.h"
-#include "vislib/graphics/gl/GLSLShader.h"
-#include "vislib/graphics/gl/OpenGLTexture2D.h"
+#include "vislib/graphics/IncludeAllGL.h"
+#include "vislib/graphics/ShaderSource.h"
+#include "vislib/graphics/GLSLShader.h"
+#include "vislib/graphics/OpenGLTexture2D.h"
 
 #include "vislib/CharTraits.h"
 #include "vislib/UTF8Encoder.h"

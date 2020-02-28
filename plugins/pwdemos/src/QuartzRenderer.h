@@ -14,7 +14,7 @@
 #include "mmcore/param/ParamSlot.h"
 #include "QuartzParticleGridDataCall.h"
 #include "mmcore/view/CallRender3D_2.h"
-#include "vislib/graphics/gl/GLSLShader.h"
+#include "vislib/graphics/GLSLShader.h"
 
 
 namespace megamol {

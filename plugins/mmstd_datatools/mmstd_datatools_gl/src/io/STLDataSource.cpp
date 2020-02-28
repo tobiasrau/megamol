@@ -5,7 +5,7 @@
 * Alle Rechte vorbehalten.
 */
 
-#include "../stdafx.h"
+#include "stdafx.h"
 #include "STLDataSource.h"
 
 #include "mmcore/Call.h"

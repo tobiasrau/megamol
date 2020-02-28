@@ -5,8 +5,8 @@
  * Alle Rechte vorbehalten.
  */
 
-#include "vislib/graphics/gl/IncludeAllGL.h"
-#include "vislib/graphics/gl/SimpleFont.h"
+#include "vislib/graphics/IncludeAllGL.h"
+#include "vislib/graphics/SimpleFont.h"
 #include "vislib/types.h"
 #include <GL/glu.h>
 #include <float.h>

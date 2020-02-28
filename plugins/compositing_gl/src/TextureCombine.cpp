@@ -6,7 +6,7 @@
 #include "mmcore/CoreInstance.h"
 #include "mmcore/param/EnumParam.h"
 
-#include "vislib/graphics/gl/ShaderSource.h"
+#include "vislib/graphics/ShaderSource.h"
 
 #include "compositing/CompositingCalls.h"
 

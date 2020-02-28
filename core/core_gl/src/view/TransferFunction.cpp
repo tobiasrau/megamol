@@ -9,6 +9,7 @@
 #include "mmcore/view/TransferFunction.h"
 
 #include "mmcore/param/TransferFunctionParam.h"
+#include "vislib/graphics/IncludeAllGL.h"
 
 
 using namespace megamol::core;

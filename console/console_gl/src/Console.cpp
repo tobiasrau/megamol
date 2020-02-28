@@ -33,6 +33,7 @@
 #include "vislib/String.h"
 #include "vislib/sys/sysfunctions.h"
 #include "vislib/Trace.h"
+#include "vislib/sys/Log.h"
 
 /** The core instance handle. */
 static megamol::console::CoreHandle hCore;
@@ -107,10 +108,6 @@ int main(int argc, char* argv[]) {
 
         // Parse the command line
         retVal = parser->Parse(cmdline.ArgC(), cmdline.ArgV());
-
-        if (parser->NoConColour()) {
-            vislib::sys::Console::EnableColors(false);
-        }
 
         if (retVal < 0) {
             // errors are present!

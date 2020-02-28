@@ -8,7 +8,7 @@
 #ifndef DRAW_TO_SCREEN_H_INCLUDED
 #define DRAW_TO_SCREEN_H_INCLUDED
 
-#include "vislib/graphics/gl/GLSLShader.h"
+#include "vislib/graphics/GLSLShader.h"
 #include "vislib/math/Matrix.h"
 
 #include "mmcore/CallerSlot.h"

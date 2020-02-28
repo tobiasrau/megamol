@@ -8,7 +8,7 @@
 #define MEGAMOL_DATATOOLS_IO_TRIMESHSTLWRITER_H_INCLUDED
 #pragma once
 
-#include "AbstractSTLWriter.h"
+#include "io/AbstractSTLWriter.h"
 
 #include "mmcore/AbstractGetData3DCall.h"
 

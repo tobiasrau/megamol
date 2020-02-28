@@ -6,7 +6,7 @@
  */
 
 #include "stdafx.h"
-#include "vislib/graphics/gl/IncludeAllGL.h"
+#include "vislib/graphics/IncludeAllGL.h"
 #define _USE_MATH_DEFINES
 #include "mmcore/view/special/TitleRenderer.h"
 #include <cmath>
@@ -16,8 +16,8 @@
 #include "vislib/assert.h"
 #include "vislib/graphics/graphicstypes.h"
 #include "vislib/math/Matrix.h"
-#include "vislib/graphics/gl/OpenGLVISLogo.h"
-#include "vislib/graphics/gl/ShaderSource.h"
+#include "vislib/graphics/OpenGLVISLogo.h"
+#include "vislib/graphics/ShaderSource.h"
 #include "vislib/math/Vector.h"
 
 using namespace megamol::core;

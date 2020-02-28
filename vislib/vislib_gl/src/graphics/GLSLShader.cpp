@@ -8,7 +8,7 @@
 #include <Windows.h>
 #endif /* _WIN32 */
 
-#include "vislib/graphics/gl/GLSLShader.h"
+#include "vislib/graphics/GLSLShader.h"
 
 #include "vislib/Array.h"
 #include "vislib/IllegalParamException.h"

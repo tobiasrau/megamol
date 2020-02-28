@@ -15,7 +15,7 @@
 
 
 #include "vislib/assert.h"
-#include "vislib/graphics/gl/OpenGLException.h"
+#include "vislib/graphics/OpenGLException.h"
 
 
 /**

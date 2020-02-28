@@ -10,7 +10,7 @@
 
 //#include "vislib/graphics/gl/GLSLShader.h"
 #include "mmcore/CoreInstance.h"
-#include "vislib/graphics/gl/GLSLGeometryShader.h"
+#include "vislib/graphics/GLSLGeometryShader.h"
 
 #include <memory>
 #include <variant>

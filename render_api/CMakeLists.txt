@@ -12,7 +12,7 @@ set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 file(GLOB_RECURSE header_files RELATIVE "${CMAKE_CURRENT_SOURCE_DIR}" "include/*.h" "include/*.hpp" "src/*.h"  "src/*.hpp")
 file(GLOB_RECURSE source_files RELATIVE "${CMAKE_CURRENT_SOURCE_DIR}" "src/*.cpp")
 if(USE_OPENGL)
-  set(gl_include_dirs "${PROJECT_NAME}_gl/include")
+set(build_interface_gl_dirs "${PROJECT_NAME}_gl/include" "${PROJECT_NAME}_gl/src")
   file(GLOB_RECURSE gl_header_files RELATIVE "${CMAKE_CURRENT_SOURCE_DIR}" "${PROJECT_NAME}_gl/include/*.h" "${PROJECT_NAME}_gl/include/*.hpp" "${PROJECT_NAME}_gl/src/*.h"  "${PROJECT_NAME}_gl/src/*.hpp")
   file(GLOB_RECURSE gl_source_files RELATIVE "${CMAKE_CURRENT_SOURCE_DIR}" "${PROJECT_NAME}_gl/src/*.cpp")
 endif()
@@ -23,7 +23,7 @@ set_target_properties(${PROJECT_NAME}
   PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}
   OUTPUT_NAME ${PROJECT_NAME})
   
-set(INCLUDE_DIRS ${gl_include_dirs} "include")
+set(INCLUDE_DIRS ${build_interface_gl_dirs} "include")
 target_include_directories(${PROJECT_NAME} PUBLIC ${INCLUDE_DIRS})
 
 #target_link_libraries(${PROJECT_NAME} PRIVATE core)

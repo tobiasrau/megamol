@@ -17,8 +17,8 @@
 #include "mmcore/view/Renderer2DModule.h"
 #include "protein_calls/SplitMergeCall.h"
 #include "protein_calls/IntSelectionCall.h"
-#include "vislib/graphics/gl/GLSLShader.h"
-#include "vislib/graphics/gl/OpenGLTexture2D.h"
+#include "vislib/graphics/GLSLShader.h"
+#include "vislib/graphics/OpenGLTexture2D.h"
 #include "vislib/math/Rectangle.h"
 
 namespace megamol {
