@@ -91,7 +91,12 @@ private:
     /** The call for data */
     core::CallerSlot getStructureSlot;
 
-   // Interface dirty flag
+#ifdef HAS_OPENGL
+    /** The texture shader */
+    vislib::graphics::gl::GLSLShader osprayShader;
+#endif
+
+    // Interface dirty flag
     bool InterfaceIsDirty();
     void InterfaceResetDirty();
 
@@ -100,6 +105,7 @@ private:
     bool material_has_changed;
     bool light_has_changed;
     bool cam_has_changed;
+    bool transformation_has_changed;
 
 	core::view::Camera_2 cam;
     float time;

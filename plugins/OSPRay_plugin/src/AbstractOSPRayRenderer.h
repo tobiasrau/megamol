@@ -77,6 +77,8 @@ protected:
 
     void changeMaterial();
 
+    void changeTransformation();
+
     /**
      * Releases the created geometries and volumes.
      *
@@ -127,8 +129,11 @@ protected:
     OSPTexture2D maxDepthTexture;
 
     // structure vectors
-    std::vector<OSPGeometry> geo;
-    std::vector<OSPVolume> vol;
+    std::map<CallOSPRayStructure*, std::vector<std::variant<OSPGeometry,OSPVolume>>> baseStructures;
+    std::map<CallOSPRayStructure*, OSPModel> instancedModels;
+    std::map<CallOSPRayStructure*, OSPGeometry> instances;
+    std::map<CallOSPRayStructure*, OSPMaterial> materials;
+
 
     // Structure map
     OSPRayStrcutrureMap structureMap;

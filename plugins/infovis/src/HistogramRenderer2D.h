@@ -3,7 +3,7 @@
 
 #include "mmcore/CalleeSlot.h"
 #include "mmcore/CallerSlot.h"
-#include "mmcore/FlagCall.h"
+#include "mmcore/FlagCall_GL.h"
 #include "mmcore/param/ParamSlot.h"
 #include "mmcore/utility/SDFFont.h"
 #include "mmcore/view/CallGetTransferFunction_gl.h"
@@ -88,32 +88,48 @@ protected:
 private:
     core::CallerSlot tableDataCallerSlot;
     core::CallerSlot transferFunctionCallerSlot;
-    core::CallerSlot flagStorageCallerSlot;
+    core::CallerSlot flagStorageReadCallerSlot;
+    core::CallerSlot flagStorageWriteCallerSlot;
 
     core::param::ParamSlot numberOfBinsParam;
     core::param::ParamSlot logPlotParam;
+    core::param::ParamSlot selectionColorParam;
 
     size_t currentTableDataHash;
     unsigned int currentTableFrameId;
-    core::FlagStorage::FlagVersionType currentFlagStorageVersion;
 
     size_t bins;
     size_t colCount;
+    size_t rowCount;
     std::vector<float> colMinimums;
     std::vector<float> colMaximums;
     std::vector<std::string> colNames;
-    std::vector<float> histogram;
-    std::vector<float> selectedHistogram;
-    size_t maxBinValue;
+    GLint maxBinValue;
 
+    vislib::graphics::gl::GLSLComputeShader calcHistogramProgram;
+    vislib::graphics::gl::GLSLComputeShader selectionProgram;
     vislib::graphics::gl::GLSLShader histogramProgram;
     vislib::graphics::gl::GLSLShader axesProgram;
 
-    GLuint quadVertexArray;
-    GLuint quadVertexBuffer;
-    GLuint quadIndexBuffer;
+    GLuint floatDataBuffer = 0;
+    GLuint minBuffer = 0;
+    GLuint maxBuffer = 0;
+    GLuint histogramBuffer = 0;
+    GLuint selectedHistogramBuffer = 0;
+    GLuint maxBinValueBuffer = 0;
 
     megamol::core::utility::SDFFont font;
+
+    float mouseX;
+    float mouseY;
+
+    bool needSelectionUpdate;
+    int selectionMode;
+    int selectedCol;
+    int selectedBin;
+
+    GLint selectionWorkgroupSize[3];
+    GLint maxWorkgroupCount[3];
 };
 
 } // namespace megamol::infovis

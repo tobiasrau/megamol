@@ -1,7 +1,7 @@
 /*
  * View3D_2.h
  *
- * Copyright (C) 2018 by VISUS (Universitaet Stuttgart).
+ * Copyright (C) 2018, 2020 by VISUS (Universitaet Stuttgart).
  * Alle Rechte vorbehalten.
  */
 
@@ -352,6 +352,8 @@ protected:
     param::ParamSlot cameraEyeParam;
     param::ParamSlot cameraGateScalingParam;
     param::ParamSlot cameraFilmGateParam;
+    param::ParamSlot cameraResolutionXParam;
+    param::ParamSlot cameraResolutionYParam;
     param::ParamSlot cameraCenterOffsetParam;
     param::ParamSlot cameraHalfApertureRadiansParam;
     param::ParamSlot cameraHalfDisparityParam;
@@ -393,6 +395,8 @@ protected:
     std::chrono::time_point<std::chrono::high_resolution_clock> lastFrameTime;
 
     std::chrono::microseconds lastFrameDuration;
+
+    bool cameraControlOverrideActive;
 };
 
 } // namespace view

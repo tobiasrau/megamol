@@ -1,4 +1,14 @@
-include(External)
+# Clone external script
+if(NOT EXISTS "${CMAKE_BINARY_DIR}/script-externals")
+  message(STATUS "Downloading external scripts")
+  execute_process(COMMAND
+    ${GIT_EXECUTABLE} clone https://github.com/UniStuttgart-VISUS/megamol-cmake-externals.git script-externals --depth 1
+    WORKING_DIRECTORY "${CMAKE_BINARY_DIR}"
+    ERROR_QUIET OUTPUT_STRIP_TRAILING_WHITESPACE)
+endif()
+
+# Include external script
+include("${CMAKE_BINARY_DIR}/script-externals/cmake/External.cmake")
 
 #
 # Centralized function to require externals to add them once by invoking
@@ -30,8 +40,8 @@ function(require_external NAME)
     endif()
 
     add_external_headeronly_project(Eigen
-      GIT_REPOSITORY https://github.com/eigenteam/eigen-git-mirror.git
-      GIT_TAG "3.3.4")
+      GIT_REPOSITORY https://gitlab.com/libeigen/eigen.git
+      GIT_TAG "3.3.7")
 
   # glm
   elseif(NAME STREQUAL "glm")
@@ -97,6 +107,16 @@ function(require_external NAME)
       GIT_TAG "v1.3.0"
       INCLUDE_DIR "include")
 
+  # tinygltf
+  elseif(NAME STREQUAL "tinygltf")
+    if(TARGET tinygltf)
+      return()
+    endif()
+
+    add_external_headeronly_project(tinygltf
+      GIT_REPOSITORY https://github.com/syoyo/tinygltf.git
+      GIT_TAG "v2.2.0")
+
   # Built libraries #####################################################
 
   # adios2
@@ -135,6 +155,25 @@ function(require_external NAME)
     add_external_library(adios2
       LIBRARY ${ADIOS2_LIB})
 
+  # libigl
+  elseif(NAME STREQUAL "libigl")
+    if(TARGET libigl)
+      return()
+    endif()
+
+    if(WIN32)
+      set(LIBIGL_LIB "")
+    else()
+      include(GNUInstallDirs)
+      set(LIBIGL_LIB "")
+    endif()
+
+    add_external_headeronly_project(libigl
+        GIT_REPOSITORY https://github.com/libigl/libigl.git
+        GIT_TAG "v2.1.0"
+        INCLUDE_DIR "include")
+
+
   # bhtsne
   elseif(NAME STREQUAL "bhtsne")
     if(TARGET bhtsne)
@@ -164,21 +203,23 @@ function(require_external NAME)
       return()
     endif()
 
+    include(GNUInstallDirs)
+
     if(WIN32)
-      set(GLFW_IMPORT_LIB "lib/glfw3dll.lib")
-      set(GLFW_LIB "lib/glfw3.dll")
-      set(MOVE_CMD COMMANDS COMMAND ${CMAKE_COMMAND} -E copy "\"<INSTALL_DIR>/lib/glfw3.dll\" \"<INSTALL_DIR>/bin/glfw3.dll\""
-                            COMMAND ${CMAKE_COMMAND} -E remove -f \"<INSTALL_DIR>/lib/glfw3.dll\")
+      set(GLFW_IMPORT_LIB "${CMAKE_INSTALL_LIBDIR}/glfw3dll.lib")
+      set(GLFW_LIB "bin/glfw3.dll")
     else()
-      set(GLFW_LIB "lib/libglfw.so")
-      set(MOVE_CMD)
+      set(GLFW_LIB "${CMAKE_INSTALL_LIBDIR}/libglfw.so")
+      # This is a try to fix #544 at least for GLFW. I found no nicer solution, probably this needs some major refactoring of the externals system.
+      # It is probably a very ugly hack, but hopefully this whole dynamic linking stuff dies anytime soon.
+      set(GLFW_LIB2 "${CMAKE_INSTALL_LIBDIR}/libglfw.so.3")
+      set(GLFW_LIB3 "${CMAKE_INSTALL_LIBDIR}/libglfw.so.3.3")
     endif()
 
     add_external_project(glfw SHARED
       GIT_REPOSITORY https://github.com/glfw/glfw.git
-      GIT_TAG "3.2.1"
-      BUILD_BYPRODUCTS "<INSTALL_DIR>/${GLFW_LIB}" "<INSTALL_DIR>/${GLFW_IMPORT_LIB}"
-      ${MOVE_CMD}
+      GIT_TAG "3.3.2"
+      BUILD_BYPRODUCTS "<INSTALL_DIR>/${GLFW_LIB}" "<INSTALL_DIR>/${GLFW_LIB2}" "<INSTALL_DIR>/${GLFW_LIB3}" "<INSTALL_DIR>/${GLFW_IMPORT_LIB}"
       CMAKE_ARGS
         -DBUILD_SHARED_LIBS=ON
         -DGLFW_BUILD_EXAMPLES=OFF
@@ -236,28 +277,28 @@ function(require_external NAME)
 
   # imgui
   elseif(NAME STREQUAL "imgui")
-    if(TARGET imgui)
-      return()
-    endif()
+    if(NOT TARGET imgui)
+      
+      if(WIN32)
+        set(IMGUI_LIB "lib/imgui.lib")
+      else()
+        set(IMGUI_LIB "lib/libimgui.a")
+      endif()
 
-    if(WIN32)
-      set(IMGUI_LIB "lib/imgui.lib")
-    else()
-      set(IMGUI_LIB "lib/libimgui.a")
-    endif()
+      add_external_project(imgui STATIC
+        GIT_REPOSITORY https://github.com/ocornut/imgui.git
+        GIT_TAG "v1.70"
+        BUILD_BYPRODUCTS "<INSTALL_DIR>/${IMGUI_LIB}"
+        PATCH_COMMAND ${CMAKE_COMMAND} -E copy
+          "${CMAKE_SOURCE_DIR}/cmake/imgui/CMakeLists.txt"
+          "<SOURCE_DIR>/CMakeLists.txt")
 
-    add_external_project(imgui STATIC
-      GIT_REPOSITORY https://github.com/ocornut/imgui.git
-      GIT_TAG "v1.70"
-      BUILD_BYPRODUCTS "<INSTALL_DIR>/${IMGUI_LIB}"
-      PATCH_COMMAND ${CMAKE_COMMAND} -E copy
-        "${CMAKE_SOURCE_DIR}/cmake/imgui/CMakeLists.txt"
-        "<SOURCE_DIR>/CMakeLists.txt")
+      add_external_library(imgui
+        LIBRARY ${IMGUI_LIB})
+
+    endif()
 
     external_get_property(imgui SOURCE_DIR)
-
-    add_external_library(imgui
-      LIBRARY ${IMGUI_LIB})
 
     target_include_directories(imgui INTERFACE "${SOURCE_DIR}/examples" "${SOURCE_DIR}/misc/cpp")
 
@@ -340,12 +381,13 @@ function(require_external NAME)
     else()
       include(GNUInstallDirs)
       set(ZMQ_LIB "${CMAKE_INSTALL_LIBDIR}/libzmq.so")
+      set(ZMQ_LIB2 "${CMAKE_INSTALL_LIBDIR}/libzmq.so.5")
     endif()
 
     add_external_project(libzmq SHARED
       GIT_REPOSITORY https://github.com/zeromq/libzmq.git
       GIT_TAG 56ace6d03f521b9abb5a50176ec7763c1b77afa9
-      BUILD_BYPRODUCTS "<INSTALL_DIR>/${ZMQ_LIB}" "<INSTALL_DIR>/${ZMQ_IMPORT_LIB}"
+      BUILD_BYPRODUCTS "<INSTALL_DIR>/${ZMQ_LIB}" "<INSTALL_DIR>/${ZMQ_LIB2}" "<INSTALL_DIR>/${ZMQ_IMPORT_LIB}"
       CMAKE_ARGS
         -DZMQ_BUILD_TESTS=OFF
         -DENABLE_PRECOMPILED=OFF)
@@ -447,7 +489,6 @@ function(require_external NAME)
       set(TNY_IMPORT_LIB "lib/tinyply.lib")
       set(TNY_LIB "bin/tinyply.dll")
     else()
-      include(GNUInstallDirs)
       set(TNY_LIB "lib/libtinyply.so")
     endif()
 

@@ -1,9 +1,11 @@
-uniform float binColor = 0.0;
-uniform int selected = 0;
+uniform vec4 selectionColor;
+
+in float binColor;
+in float selection;
 
 void main(void) {
-    if (selected == 1) {
-        gl_FragColor = vec4(1.0, 0.0, 0.0, 1.0);
+    if (selection <= 1.0) {
+        gl_FragColor = selectionColor;
     } else {
         gl_FragColor = tflookup(binColor);
     }
