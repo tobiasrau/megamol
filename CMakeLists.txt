@@ -52,12 +52,11 @@ include(ClangFormat)
 # External
 include("CMakeExternals.cmake")
 
-###############################
-# Render API modules
-###############################
-add_subdirectory(${MEGAMOL_DIR}/render_api)
+# Input and Event interfaces 
+add_subdirectory(${MEGAMOL_DIR}/input_events)
 
-###############################
+# Render API modules
+add_subdirectory(${MEGAMOL_DIR}/render_api)
 
 # Vislib
 add_subdirectory(${MEGAMOL_VISLIB_DIR})
@@ -69,9 +68,7 @@ add_subdirectory(${MEGAMOL_CORE_DIR})
 set(CONSOLE_NAME mmconsole)
 add_subdirectory(${MEGAMOL_CONSOLE_DIR})
 
-###############################
 # Main3000
-###############################
 add_subdirectory(${MEGAMOL_DIR}/main3000)
 
 # Add directory structure for visual studio

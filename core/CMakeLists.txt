@@ -57,7 +57,22 @@ if(BUILD_CORE)
   # Target definition
   add_library(${PROJECT_NAME} SHARED ${public_header_files} ${header_files} ${shader_files} ${source_files}
                                      ${version_files} ${gl_header_files} ${gl_public_header_files} ${gl_source_files})
+  target_compile_definitions(${PROJECT_NAME} PRIVATE MEGAMOLCORE_EXPORTS)
+  target_include_directories(${PROJECT_NAME}
+    PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include> "src" "include" ${build_interface_gl_dirs}
+    PUBLIC ${EXPAT_INCLUDE_DIRS})
+  if(USE_OPENGL)
+    target_include_directories(${PROJECT_NAME}
+      PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include> "${PROJECT_NAME}_gl/src" "${PROJECT_NAME}_gl/include")
+  endif()
 
+  target_link_libraries(${PROJECT_NAME} 
+    PUBLIC vislib glm zlib libpng json lua ${EXPAT_LIBRARIES}
+    PRIVATE libzmq libcppzmq ${CMAKE_DL_LIBS} ${CMAKE_THREAD_LIBS_INIT} abstract_render_api)
+  if(USE_OPENGL)
+    target_link_libraries(${PROJECT_NAME} PUBLIC glowl glad)
+  endif()
+                                   
   # Add libunwind.
   if(UNIX)
     option(USE_LIBUNWIND "use libunwind" OFF)
@@ -73,22 +88,6 @@ if(BUILD_CORE)
         message(FATAL_ERROR "Can not find libunwind.")
       endif()
     endif()
-  endif()
-  
-  target_compile_definitions(${PROJECT_NAME} PRIVATE MEGAMOLCORE_EXPORTS)
-  target_include_directories(${PROJECT_NAME}
-    PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include> "src" "include" ${build_interface_gl_dirs}
-    PUBLIC ${EXPAT_INCLUDE_DIRS})
-  if(USE_OPENGL)
-    target_include_directories(${PROJECT_NAME}
-      PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include> "${PROJECT_NAME}_gl/src" "${PROJECT_NAME}_gl/include")
-  endif()
-
-  target_link_libraries(${PROJECT_NAME} 
-    PUBLIC vislib glm zlib libpng json lua ${EXPAT_LIBRARIES}
-    PRIVATE libzmq libcppzmq ${CMAKE_DL_LIBS} ${CMAKE_THREAD_LIBS_INIT} abstract_render_api)
-  if(USE_OPENGL)
-    target_link_libraries(${PROJECT_NAME} PUBLIC glowl glad)
   endif()
 
   if(WIN32)

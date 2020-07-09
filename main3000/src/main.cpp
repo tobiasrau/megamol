@@ -1,52 +1,131 @@
 #include "mmcore/CoreInstance.h"
 #include "mmcore/MegaMolGraph.h"
 
-#include "GenericRenderAPI.hpp"
+#include "AbstractRenderAPI.hpp"
+#include "OpenGL_GLFW_RAPI.hpp"
 
-int main() {
+#include "mmcore/view/AbstractView_EventConsumption.h"
+
+#include "mmcore/LuaAPI.h"
+#include <cxxopts.hpp>
+#include <filesystem>
+
+int main(int argc, char* argv[]) {
     megamol::core::CoreInstance core;
     core.Initialise();
 
     const megamol::core::factories::ModuleDescriptionManager& moduleProvider = core.GetModuleDescriptionManager();
     const megamol::core::factories::CallDescriptionManager& callProvider = core.GetCallDescriptionManager();
 
-    std::unique_ptr<megamol::render_api::AbstractRenderAPI> api =
-        std::make_unique<megamol::render_api::GenericRenderAPI>();
-    std::string api_name = "generic";
+    megamol::render_api::OpenGL_GLFW_RAPI gl_service;
 
-	megamol::render_api::GenericRenderAPI::Config genericConfig;
-    genericConfig.windowPlacement.w = 1920;
-    genericConfig.windowPlacement.h = 1080;
-    api->initAPI(&genericConfig);
+    megamol::render_api::OpenGL_GLFW_RAPI::Config openglConfig;
+    openglConfig.windowTitlePrefix = openglConfig.windowTitlePrefix + " ~ Main3000";
+    openglConfig.versionMajor = 4;
+    openglConfig.versionMinor = 6;
+    gl_service.initAPI(&openglConfig);
 
-    megamol::core::MegaMolGraph graph(core, moduleProvider, callProvider, std::move(api), api_name);
+    megamol::core::MegaMolGraph graph(core, moduleProvider, callProvider);
 
-	// TODO: verify valid input IDs/names in graph instantiation methods - dont defer validation until executing the changes
-    graph.QueueModuleInstantiation("View3D_2", api_name + "::view");
-    graph.QueueModuleInstantiation("OSPRayRenderer", api_name + "::rnd");
-    graph.QueueModuleInstantiation("AmbientLight", api_name + "::light");
-    graph.QueueModuleInstantiation("TestSpheresDataSource", api_name + "::datasource");
-    graph.QueueModuleInstantiation("OSPRaySphereGeometry", api_name + "::geo");
-    graph.QueueModuleInstantiation("OSPRayOBJMaterial", api_name + "::mat");
+#if 0
+    megamol::core::LuaAPI lua_api(graph, true);
 
-    graph.QueueCallInstantiation("CallRender3D_2", api_name + "::view::rendering", api_name + "::rnd::rendering");
-    graph.QueueCallInstantiation("MultiParticleDataCall", api_name + "::geo::getdata", api_name + "::datasource::getData");
-    graph.QueueCallInstantiation(
-        "CallLight", api_name + "::rnd::lights", api_name + "::light::deployLightSlot");
-    graph.QueueCallInstantiation("CallOSPRayStructure", api_name + "::rnd::getStructure", api_name + "::geo::deployStructureSlot");
-    graph.QueueCallInstantiation(
-        "CallOSPRayMaterial", api_name + "::geo::getMaterialSlot", api_name + "::mat::deployMaterialSlot");
-    
-	graph.ExecuteGraphUpdates();
+    cxxopts::Options options(argv[0], "MegaMol Frontend 3000");
+    options.positional_help("<additional project files>");
+    options.add_options()("project-files", "projects to load", cxxopts::value<std::vector<std::string>>());
+    options.parse_positional({"project-files"});
+    auto parsed_options = options.parse(argc, argv);
+    std::string res;
+    if (parsed_options.count("project-files")) {
+        const auto& v = parsed_options["project-files"].as<std::vector<std::string>>();
+        for (const auto& p : v) {
+            if (std::filesystem::exists(p)) {
+                if (!lua_api.RunFile(p, res)) {
+                    std::cout << "Project file \"" << p << "\" did not execute correctly: " << res << std::endl;
+                }
+            } else {
+                std::cout << "Project file \"" << p << "\" does not exist!" << std::endl;
+            }
+        }
+    }
 
-    std::cout << "Rendering ..." << std::endl;
-	while (true) {
+#else
+
+    graph.AddModuleDependencies(gl_service.getRenderResources());
+
+    graph.CreateModule("View3D_2", "::view");
+    graph.CreateModule("SphereRenderer", "::spheres");
+    graph.CreateModule("TestSpheresDataSource", "::datasource");
+    graph.CreateCall("CallRender3D_2", "::view::rendering", "::spheres::rendering");
+    graph.CreateCall("MultiParticleDataCall", "::spheres::getdata", "::datasource::getData");
+
+    std::vector<std::string> view_dependency_requests = {
+        "KeyboardEvents", "MouseEvents", "WindowEvents", "FramebufferEvents", "IOpenGL_Context"};
+
+	// callback executed by the graph for each frame
+	// knows how to make a view module process input events and start the rendering
+    auto view_rendering_execution = [&](megamol::core::Module::ptr_type module_ptr,
+                                        std::vector<megamol::render_api::RenderResource> dependencies) {
+        megamol::core::view::AbstractView* view_ptr =
+            dynamic_cast<megamol::core::view::AbstractView*>(module_ptr.get());
+
+        assert(view_dependency_requests.size() == dependencies.size());
+
+        if (!view_ptr) {
+            std::cout << "error. module is not a view module. could not set as graph rendering entry point."
+                      << std::endl;
+            return false;
+        }
+
+        megamol::core::view::AbstractView& view = *view_ptr;
+
+        for (auto& dep : dependencies) {
+            auto& depId = dep.getIdentifier();
+
+            if (depId == "KeyboardEvents") {
+                megamol::core::view::view_consume_keyboard_events(view, dep);
+            }
+            if (depId == "MouseEvents") {
+                megamol::core::view::view_consume_mouse_events(view, dep);
+            }
+            if (depId == "WindowEvents") {
+                megamol::core::view::view_consume_window_events(view, dep);
+            }
+            if (depId == "FramebufferEvents") {
+                megamol::core::view::view_consume_framebuffer_events(view, dep);
+            }
+            if (depId == "IOpenGL_Context") {
+                megamol::core::view::view_poke_rendering(view, dep);
+            }
+        }
+    };
+
+    graph.SetGraphEntryPoint("::view", view_dependency_requests, view_rendering_execution);
+
+    std::string parameter_name("::datasource::numSpheres");
+    auto parameterPtr = graph.FindParameter(parameter_name);
+    if (parameterPtr) {
+        parameterPtr->ParseValue("3");
+    } else {
+        std::cout << "ERROR: could not find parameter: " << parameter_name << std::endl;
+    }
+#endif
+
+    while (!gl_service.shouldShutdown()) {
+        gl_service.preViewRender(); // glfw poll input events
+		// the graph holds references to the input events structs filled by glfw
+		// we should probably make this more explicit, i.e.: new_events = [gl_]service.preViewRender(); graph.UpdateEvents(new_events); graph.Render();
+
         graph.RenderNextFrame();
-	}
 
-	// clean up modules, calls, graph
+        gl_service.postViewRender(); // swap buffers, clear input events
+    }
 
-	// TODO: implement graph destructor
+    // clean up modules, calls, graph
+
+    gl_service.closeAPI();
+
+    // TODO: implement graph destructor
 
     return 0;
 }

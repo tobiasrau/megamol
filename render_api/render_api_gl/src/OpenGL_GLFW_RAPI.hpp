@@ -4,18 +4,17 @@
  * Copyright (C) 2019 by MegaMol Team
  * Alle Rechte vorbehalten.
  */
-
-#ifndef MEGAMOL_OPENGL_GLFW_RAPI_HPP_INCLUDED
-#define MEGAMOL_OPENGL_GLFW_RAPI_HPP_INCLUDED
+ö
 #pragma once
 
 #include "AbstractRenderAPI.hpp"
-#include "AbstractUILayer.h"
 
-#include <string>
-#include <tuple>
-#include <vector>
-#include <functional>
+#include "KeyboardMouse_Events.h"
+#include "Framebuffer_Events.h"
+#include "Window_Events.h"
+#include "OpenGL_Context.h"
+
+#include <memory>
 
 namespace megamol {
 namespace render_api {
@@ -29,27 +28,11 @@ struct WindowPlacement {
     bool topMost = false;
 };
 
-class OpenGL_GLFW_RAPI : public AbstractRenderAPI {
-public:
-    struct UIEvents {
-        std::vector<std::tuple<render_api::Key, render_api::KeyAction, render_api::Modifiers>> onKey_list;
-        std::vector<unsigned int> onChar_list;
-        std::vector<std::tuple<double, double>> onMouseMove_list;
-        std::vector<std::tuple<render_api::MouseButton, render_api::MouseButtonAction, render_api::Modifiers>> onMouseButton_list;
-        std::vector<std::tuple<double, double>> onMouseWheel_list;
-        std::vector<std::tuple<int, int>> resize_list;
-        bool is_window_resized = false;
-
-        void clear() {
-            this->onKey_list.clear();
-            this->onChar_list.clear();
-            this->onMouseMove_list.clear();
-            this->onMouseButton_list.clear();
-            this->onMouseWheel_list.clear();
-            this->resize_list.clear();
-            this->is_window_resized = false;
-        }
-    };
+class OpenGL_GLFW_RAPI final : public AbstractRenderAPI {
+    using KeyboardEvents = megamol::input_events::KeyboardEvents;
+    using MouseEvents = megamol::input_events::MouseEvents;
+    using WindowEvents = megamol::input_events::WindowEvents;
+    using FramebufferEvents = megamol::input_events::FramebufferEvents;
 
 public:
     // make capabilities of OpenGL/GLFW RAPI statically query-able (we would like to force this from the abstract
@@ -57,9 +40,11 @@ public:
     std::string getAPIName() const override { return std::string{"OpenGL GLFW"}; };
     RenderAPIVersion getAPIVersion() const override { return RenderAPIVersion{0, 0}; };
 
-    // how to force RAPI subclasses to implement a Config struct which should be passed to constructor??
+    // TODO: how to force RAPI subclasses to implement a Config struct which should be passed to constructor??
     // set sane defaults for all options here, so usage is as simple as possible
     struct Config {
+        int versionMajor = 4;
+        int versionMinor = 6;
         std::string windowTitlePrefix = "MegaMol";
         void* sharedContextPtr = nullptr;
         std::string viewInstanceName = "";
@@ -81,21 +66,10 @@ public:
     void preViewRender() override;  // prepare rendering with API, e.g. set OpenGL context, frame-timers, etc
     void postViewRender() override; // clean up after rendering, e.g. stop and show frame-timers in GLFW window
 
+    // expose the resources and input events this RAPI provides: Keyboard inputs, Mouse inputs, GLFW Window events, Framebuffer resize events
+    const std::vector<RenderResource>& getRenderResources() const override;
+
     const void* getAPISharedDataPtr() const override; // ptr non-owning, share data should be only borrowed
-
-    void AddUILayer(std::shared_ptr<AbstractUILayer> uiLayer);
-    void RemoveUILayer(std::shared_ptr<AbstractUILayer> uiLayer);
-    UIEvents& getUIEvents();
-
-    // TODO: register passing user inputs? via existing callbacks?
-    void glfw_onKey_func(int k, int s, int a, int m);
-    void glfw_onChar_func(unsigned int charcode);
-    void glfw_onMouseMove_func(double x, double y);
-    void glfw_onMouseButton_func(int b, int a, int m);
-    void glfw_onMouseWheel_func(double x, double y);
-
-    void on_resize(int w, int h);
-    bool checkWindowResize();
 
     // from AbstractRenderAPI:
     // int setPriority(const int p) // priority initially 0
@@ -103,16 +77,57 @@ public:
     // bool shouldShutdown() const; // shutdown initially false
     // void setShutdown(const bool s = true);
 
+    // GLFW event callbacks need to be public for technical reasons.
+    // keyboard events
+    void glfw_onKey_func(const int key, const int scancode, const int action, const int mods);
+    void glfw_onChar_func(const unsigned int codepoint);
+
+    // mouse events
+    void glfw_onMouseButton_func(const int button, const int action, const int mods);
+    void glfw_onMouseCursorPosition_func(const double xpos, const double ypos);
+    void glfw_onMouseCursorEnter_func(const bool entered);
+    void glfw_onMouseScroll_func(const double xoffset, const double yoffset);
+
+    // window events
+    void glfw_onWindowSize_func(const int width /* in screen coordinates, of the window */, const int height);
+    void glfw_onWindowFocus_func(const bool focused);
+    void glfw_onWindowShouldClose_func(const bool shouldclose);
+    void glfw_onWindowIconified_func(const bool iconified);
+    void glfw_onWindowContentScale_func(const float xscale, const float yscale);
+    void glfw_onPathDrop_func(const int path_count, const char* paths[]);
+
+    // framebuffer events
+    void glfw_onFramebufferSize_func(const int widthpx, const int heightpx);
+
 private:
+	struct OpenGL_Context : public megamol::input_events::IOpenGL_Context {
+        void* ptr = nullptr;
+
+		void activate() const override;
+	    void close() const override;
+	};
+
+    // abstract away GLFW library details behind pointer-to-implementation. only use GLFW header in .cpp
     struct PimplData;
-    std::unique_ptr<PimplData, std::function<void(PimplData*)>>
-        m_pimpl; // abstract away GLFW library details behind pointer-to-implementation
+    std::unique_ptr<PimplData, std::function<void(PimplData*)>> m_pimpl;
     void updateWindowTitle();
 
-    UIEvents ui_events;
+    // GLFW fills those events and we propagate them to the View3D/the MegaMol graph
+    KeyboardEvents m_keyboardEvents;
+    MouseEvents m_mouseEvents;
+    WindowEvents m_windowEvents;
+    FramebufferEvents m_framebufferEvents;
+	OpenGL_Context m_opengl_context_impl;
+	input_events::IOpenGL_Context* m_opengl_context;
+
+public:
+    void clearResources();
+private:
+
+    // this holds references to the event structs we fill. the events are passed to the renderers/views using
+    // const std::vector<RenderResource>& getRenderResources() override
+    std::vector<RenderResource> m_renderResourceReferences;
 };
 
 } // namespace render_api
 } // namespace megamol
-
-#endif MEGAMOL_OPENGL_GLFW_RAPI_HPP_INCLUDED
