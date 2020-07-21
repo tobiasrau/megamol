@@ -21,7 +21,8 @@
 #include "vislib/SingleLinkedList.h"
 #include "vislib/SmartPtr.h"
 #include "vislib/String.h"
-#include <AbstractInputScope.h>
+#include "KeyboardMouseInput.h"
+#include "AbstractInputScope.h"
 
 namespace megamol {
 namespace core {

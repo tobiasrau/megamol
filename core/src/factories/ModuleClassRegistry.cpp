@@ -40,27 +40,21 @@
 #include "mmcore/FlagStorage.h"
 #ifdef HAS_OPENGL
 #include "mmcore/FlagStorage_GL.h"
-#include "mmcore/moldyn/DataGridder.h"
-#include "mmcore/moldyn/MMPGDDataSource.h"
-#include "mmcore/moldyn/MMPGDWriter.h"
 #include "mmcore/DeferredShading.h"
 #include "mmcore/view/special/CallbackScreenShooter.h"
 #include "mmcore/view/SplitView.h"
 #include "mmcore/view/HeadView.h"
 #include "mmcore/moldyn/AddParticleColours.h"
-#include "mmcore/moldyn/ArrowRenderer.h"
-#include "mmcore/moldyn/GrimRenderer.h"
-#include "mmcore/moldyn/SphereRenderer.h"
-#include "mmcore/moldyn/SphereOutlineRenderer.h"
 #include "mmcore/view/TransferFunction.h"
-#include "mmcore/view/TransferFunctionRenderer.h"
 #include "mmcore/moldyn/AddClusterColours.h"
+#include "mmcore/view/View2D.h"
+#include "mmcore/view/BoundingBoxRenderer.h"
 #endif
 
 using namespace megamol::core;
 
-
 /*
+
  * factories::register_module_classes
  */
 void factories::register_module_classes(factories::ModuleDescriptionManager& instance) {
@@ -99,35 +93,14 @@ void factories::register_module_classes(factories::ModuleDescriptionManager& ins
     #ifdef HAS_OPENGL
     instance.RegisterAutoDescription<FlagStorage_GL>();
     instance.RegisterAutoDescription<DeferredShading>();
-    instance.RegisterAutoDescription<view::MuxRenderer3D<2>>();
-    instance.RegisterAutoDescription<view::MuxRenderer3D<3>>();
-    instance.RegisterAutoDescription<view::MuxRenderer3D<4>>();
-    instance.RegisterAutoDescription<view::MuxRenderer3D<5>>();
-    instance.RegisterAutoDescription<view::MuxRenderer3D<10>>();
     instance.RegisterAutoDescription<view::special::CallbackScreenShooter>();
     instance.RegisterAutoDescription<view::SplitView>();
     instance.RegisterAutoDescription<view::HeadView>();
-    instance.RegisterAutoDescription<misc::WatermarkRenderer>();
     instance.RegisterAutoDescription<moldyn::AddParticleColours>();
-    instance.RegisterAutoDescription<moldyn::ArrowRenderer>();
-    instance.RegisterAutoDescription<moldyn::GrimRenderer>();
-    instance.RegisterAutoDescription<moldyn::MipDepthSphereRenderer>();
-    instance.RegisterAutoDescription<moldyn::SphereRenderer>();
-    instance.RegisterAutoDescription<moldyn::SphereOutlineRenderer>();
-    instance.RegisterAutoDescription<moldyn::OracleSphereRenderer>();
     instance.RegisterAutoDescription<view::TransferFunction>();
-    instance.RegisterAutoDescription<view::TransferFunctionRenderer>();
-    instance.RegisterAutoDescription<view::special::AnaglyphStereoView>();
-    instance.RegisterAutoDescription<view::special::ChronoGraph>();
-    instance.RegisterAutoDescription<view::special::DemoRenderer2D>();
-    instance.RegisterAutoDescription<view::special::QuadBufferStereoView>();
     instance.RegisterAutoDescription<view::special::ScreenShooter>();
     instance.RegisterAutoDescription<view::View2D>();
     instance.RegisterAutoDescription<moldyn::AddClusterColours>();
     instance.RegisterAutoDescription<view::BoundingBoxRenderer>();
-    instance.RegisterAutoDescription<view::BlinnPhongRendererDeferred>();
-    instance.RegisterAutoDescription<moldyn::DataGridder>();
-    instance.RegisterAutoDescription<moldyn::MMPGDDataSource>();
-    instance.RegisterAutoDescription<moldyn::MMPGDWriter>();
     #endif
 }

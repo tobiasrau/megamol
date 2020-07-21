@@ -9,11 +9,15 @@
 #include "mmcore/view/TransferFunction.h"
 
 #include "mmcore/param/TransferFunctionParam.h"
-#include "vislib/graphics/IncludeAllGL.h"
+
+#ifdef HAS_OPENGL
+#include "mmcore/view/TransferFunctionUtility_gl.h"
+#else
+#include "mmcore/view/TransferFunctionUtility.h"
+#endif
 
 
-using namespace megamol::core;
-using namespace megamol::core::view;
+namespace megamol::core::view {
 
 
 /*
@@ -63,8 +67,6 @@ bool TransferFunction::create(void) {
  */
 void TransferFunction::release(void) {
 
-    glDeleteTextures(1, &this->texID);
-    this->texID = 0;
 }
 
 
@@ -120,27 +122,10 @@ bool TransferFunction::requestTF(Call& call) {
             param::TransferFunctionParam::GaussInterpolation(this->tex, this->texSize, tfnodes);
         }
 
-        if (this->texID != 0) {
-            glDeleteTextures(1, &this->texID);
-        }
+        // use utility for gl or CPU calls
+        auto tfu = TransferFunctionUtility(texFormat, tex, texID, texSize);
+        tfu.requestTF();
 
-        bool t1de = (glIsEnabled(GL_TEXTURE_1D) == GL_TRUE);
-        if (!t1de) glEnable(GL_TEXTURE_1D);
-        if (this->texID == 0) glGenTextures(1, &this->texID);
-
-        GLint otid = 0;
-        glGetIntegerv(GL_TEXTURE_BINDING_1D, &otid);
-        glBindTexture(GL_TEXTURE_1D, (GLuint)this->texID);
-
-        glTexImage1D(GL_TEXTURE_1D, 0, GL_RGBA, this->texSize, 0, this->texFormat, GL_FLOAT, this->tex.data());
-
-        glTexParameteri(GL_TEXTURE_1D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-        glTexParameteri(GL_TEXTURE_1D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-        glTexParameteri(GL_TEXTURE_1D, GL_TEXTURE_WRAP_S, GL_CLAMP);
-
-        glBindTexture(GL_TEXTURE_1D, otid);
-
-        if (!t1de) glDisable(GL_TEXTURE_1D);
         ++this->version;
     }
 
@@ -149,3 +134,4 @@ bool TransferFunction::requestTF(Call& call) {
 
     return true;
 }
+} // namespace megamol::core::view

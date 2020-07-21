@@ -10,16 +10,14 @@ if(BUILD_RAPI)
   set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 
 
-  file(GLOB_RECURSE header_files RELATIVE "${CMAKE_CURRENT_SOURCE_DIR}" "include/*.h" "include/*.hpp" "src/*.h"  "src/*.hpp")
-  file(GLOB_RECURSE source_files RELATIVE "${CMAKE_CURRENT_SOURCE_DIR}" "src/*.cpp")
+  file(GLOB_RECURSE header_files RELATIVE "${CMAKE_CURRENT_SOURCE_DIR}" "include/*.h" "include/*.hpp")
   if(USE_OPENGL)
-  set(build_interface_gl_dirs "${PROJECT_NAME}_gl/include" "${PROJECT_NAME}_gl/src")
-    file(GLOB_RECURSE gl_header_files RELATIVE "${CMAKE_CURRENT_SOURCE_DIR}" "${PROJECT_NAME}_gl/include/*.h" "${PROJECT_NAME}_gl/include/*.hpp" "${PROJECT_NAME}_gl/src/*.h"  "${PROJECT_NAME}_gl/src/*.hpp")
+    set(build_interface_gl_dirs "${PROJECT_NAME}_gl/include" "${PROJECT_NAME}_gl/src")
     file(GLOB_RECURSE gl_source_files RELATIVE "${CMAKE_CURRENT_SOURCE_DIR}" "${PROJECT_NAME}_gl/src/*.cpp")
   endif()
 
   # Add target
-  add_library(${PROJECT_NAME} STATIC ${header_files} ${source_files} ${gl_header_files} ${gl_source_files})
+  add_library(${PROJECT_NAME} STATIC ${header_files} ${gl_source_files})
   set_target_properties(${PROJECT_NAME}
     PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}
     OUTPUT_NAME ${PROJECT_NAME})

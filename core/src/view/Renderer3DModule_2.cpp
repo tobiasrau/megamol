@@ -10,6 +10,9 @@
 #include "mmcore/view/AbstractView.h"
 #include "mmcore/view/CallRender3D_2.h"
 #include "mmcore/view/InputCall.h"
+#ifdef HAS_OPENGL
+#include "vislib/graphics/IncludeAllGL.h"
+#endif
 
 using namespace megamol::core;
 using namespace megamol::core::view;
@@ -84,8 +87,10 @@ bool Renderer3DModule_2::RenderChain(CallRender3D_2& call) {
 
     if (viewptr != nullptr) {
         #ifdef HAS_OPENGL
-        auto vp = call.GetViewport();
-        glViewport(vp.Left(), vp.Bottom(), vp.Width(), vp.Height());
+        view::Camera_2 cam;
+        call.GetCamera(cam);
+        auto vp = cam.image_tile();
+        glViewport(vp.left(), vp.bottom(), vp.width(), vp.height());
         auto backCol = call.BackgroundColor();
         glClearColor(backCol.x, backCol.y, backCol.z, 0.0f);
         glClearDepth(1.0f);

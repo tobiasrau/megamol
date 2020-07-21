@@ -497,7 +497,7 @@ void view::special::ScreenShooter::BeforeRender(view::AbstractView* view) {
                     "Failed to create Screenshot: Cannot enable Framebuffer object", __FILE__, __LINE__);
             }
             glViewport(0, 0, data.imgWidth, data.imgHeight);
-            crv.SetOutputBuffer(&fbo, vislib::math::Rectangle<int>(0, 0, data.imgWidth, data.imgHeight));
+            //crv.SetOutputBuffer(&fbo, vislib::math::Rectangle<int>(0, 0, data.imgWidth, data.imgHeight));
             crv.SetTile(static_cast<float>(data.imgWidth), static_cast<float>(data.imgHeight), 0.0f, 0.0f,
                 static_cast<float>(data.imgWidth), static_cast<float>(data.imgHeight));
             crv.SetTime(frameTime);
@@ -709,7 +709,7 @@ void view::special::ScreenShooter::BeforeRender(view::AbstractView* view) {
                             "Failed to create Screenshot: Cannot enable Framebuffer object", __FILE__, __LINE__);
                     }
                     glViewport(0, 0, tileW, tileH);
-                    crv.SetOutputBuffer(&fbo, vislib::math::Rectangle<int>(0, 0, tileW, tileH));
+                    //crv.SetOutputBuffer(&fbo, vislib::math::Rectangle<int>(0, 0, tileW, tileH));
                     crv.SetTile(static_cast<float>(data.imgWidth), static_cast<float>(data.imgHeight),
                         static_cast<float>(tileX), static_cast<float>(tileY), static_cast<float>(tileW),
                         static_cast<float>(tileH));

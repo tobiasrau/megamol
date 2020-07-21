@@ -68,7 +68,7 @@ if(BUILD_CORE)
 
   target_link_libraries(${PROJECT_NAME} 
     PUBLIC vislib glm zlib libpng json lua ${EXPAT_LIBRARIES}
-    PRIVATE libzmq libcppzmq ${CMAKE_DL_LIBS} ${CMAKE_THREAD_LIBS_INIT} abstract_render_api)
+    PRIVATE libzmq libcppzmq ${CMAKE_DL_LIBS} ${CMAKE_THREAD_LIBS_INIT} abstract_render_api input_events)
   if(USE_OPENGL)
     target_link_libraries(${PROJECT_NAME} PUBLIC glowl glad)
   endif()

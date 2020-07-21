@@ -98,8 +98,8 @@ void view::SplitView::Render(const mmcRenderViewContext& context) {
         vpw = vp[2];
         vph = vp[3];
     } else {
-        vpw = this->overrideCall->ViewportWidth();
-        vph = this->overrideCall->ViewportHeight();
+        //vpw = this->overrideCall->ViewportWidth();
+        //vph = this->overrideCall->ViewportHeight();
     }
 
     if (this->splitPositionSlot.IsDirty() || this->splitOrientationSlot.IsDirty() || this->splitWidthSlot.IsDirty() ||
@@ -110,7 +110,7 @@ void view::SplitView::Render(const mmcRenderViewContext& context) {
         this->updateSize(vpw, vph);
 
         if (this->overrideCall != nullptr) {
-            this->overrideCall->EnableOutputBuffer();
+            //this->overrideCall->EnableOutputBuffer();
         }
     }
     auto renderAndBlit = [&](vislib::graphics::gl::FramebufferObject& fbo, CallRenderView* crv,
@@ -118,7 +118,7 @@ void view::SplitView::Render(const mmcRenderViewContext& context) {
         if (crv == nullptr) {
             return;
         }
-        crv->SetOutputBuffer(&fbo);
+        //crv->SetOutputBuffer(&fbo);
         crv->SetInstanceTime(context.InstanceTime);
         crv->SetTime(-1.0f);
 
@@ -144,7 +144,7 @@ void view::SplitView::Render(const mmcRenderViewContext& context) {
 #endif /* DEBUG || _DEBUG */
 
         if (this->overrideCall != nullptr) {
-            this->overrideCall->EnableOutputBuffer();
+            //this->overrideCall->EnableOutputBuffer();
         }
 
         // Bind and blit framebuffer.

@@ -4,7 +4,7 @@
  * Copyright (C) 2019 by MegaMol Team
  * Alle Rechte vorbehalten.
  */
-ö
+
 #pragma once
 
 #include "AbstractRenderAPI.hpp"

@@ -226,7 +226,8 @@ void view::View2D::Render(const mmcRenderViewContext& context) {
         cr2d->SetOutputBuffer(GL_BACK,
             vpx, vpy, static_cast<int>(w), static_cast<int>(h));
     } else {
-        cr2d->SetOutputBuffer(*this->incomingCall);
+        //TODO
+        //cr2d->SetOutputBuffer(*this->incomingCall);
     }
     ::glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // depth could be required even for 2d
 
@@ -324,10 +325,10 @@ bool view::View2D::OnRenderView(Call& call) {
     if (crv == NULL) return false;
     this->incomingCall = crv;
     this->overrideViewport = overVP; // never set window viewport
-    if (crv->IsViewportSet()) {
-        overVP[2] = crv->ViewportWidth();
-        overVP[3] = crv->ViewportHeight();
-    }
+    //if (crv->IsViewportSet()) {
+    //    overVP[2] = crv->ViewportWidth();
+    //    overVP[3] = crv->ViewportHeight();
+    //}
     if (crv->IsTileSet()) {
         overTile[0] = crv->TileX();
         overTile[1] = crv->TileY();
